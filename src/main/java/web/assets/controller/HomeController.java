@@ -6,18 +6,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-    @GetMapping("/")
-    public String root() {
-        return "index";
-        //return "login";
-    }
+//    @GetMapping("/")
+//    public String root() {
+//        return "index";
+//        //return "login";
+//    }
 
-    @GetMapping("/user")
-    public String userIndex() {
-        return "user/index";
-    }
+//    @GetMapping("/main")
+//    public String userIndex() {
+//        return "main/listfiles";
+//    }
 
-    @GetMapping("/login")
+//    @GetMapping("/user")
+////    public String userIndex() {
+////        return "user/index";
+////    }
+//    public String userIndex() {
+//        return "upload";
+//    }
+
+    @GetMapping("/") //login
     public String login() {
         return "login";
     }

@@ -18,10 +18,10 @@ import java.util.stream.Stream;
 
 @Service
 public class FileStorageImpl implements web.assets.repository.FileStorage {
-	
+
 	Logger log = LoggerFactory.getLogger(this.getClass().getName());
 	private final Path rootLocation = Paths.get("filestorage");
- 
+
 	@Override
 	public void store(MultipartFile file){
 		try {
@@ -30,7 +30,7 @@ public class FileStorageImpl implements web.assets.repository.FileStorage {
         	throw new RuntimeException("FAIL! -> message = " + e.getMessage());
         }
 	}
-	
+
 	@Override
     public Resource loadFile(String filename) {
         try {
@@ -45,7 +45,7 @@ public class FileStorageImpl implements web.assets.repository.FileStorage {
         	throw new RuntimeException("Error! -> message = " + e.getMessage());
         }
     }
-    
+
 	@Override
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(rootLocation.toFile());

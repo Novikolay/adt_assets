@@ -15,21 +15,25 @@ import java.util.stream.Collectors;
 
 @Controller
 public class UploadFileController {
-	
-	@Autowired
+
+	final
 	FileStorage fileStorage;
-	
-    //@GetMapping("/")
+
+	public UploadFileController(FileStorage fileStorage) {
+		this.fileStorage = fileStorage;
+	}
+
+	//@GetMapping("/")
 	@GetMapping("/upload")
     public String index() {
-        return "uploadform";
+        return "main/uploadform";
     }
-    
+
     //@PostMapping("/")
     @PostMapping("/upload")
     public String uploadMultipartFile(@RequestParam("files") MultipartFile[] files, Model model) {
     	List<String> fileNames = null;
-    	
+
 		try {
 	        fileNames = Arrays.asList(files)
 	                .stream()
@@ -38,15 +42,15 @@ public class UploadFileController {
 	                	return file.getOriginalFilename();
 	                })
 	                .collect(Collectors.toList());
-			
+
 			model.addAttribute("message", "Files uploaded successfully!");
 			model.addAttribute("files", fileNames);
 		} catch (Exception e) {
 			model.addAttribute("message", "Fail!");
 			model.addAttribute("files", fileNames);
 		}
-		
-        return "uploadform";
+
+        return "main/uploadform";
     }
-    
+
 }

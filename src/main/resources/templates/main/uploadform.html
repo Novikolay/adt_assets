@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Upload Multiple Files</title>
+<!--<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"-->
+<!--	  xmlns:th="http://www.thymeleaf.org"-->
+<!--	  layout:decorate="~{fragments/layout}">-->
+<!--<head>-->
+    <title>Загрузить несколько файлов</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
@@ -15,15 +19,19 @@
 	<div class="h-100">
 		<div class="row h-100 justify-content-center align-items-center">
 			<div class="col-sm-5">
-				<h3>Upload Multiple Files to FileSystem</h3>
+				<h3>Загрузить несколько файлов на сервер</h3>
 				<form method="POST" enctype="multipart/form-data" id="fileUploadForm">
 					<div class="form-group">
-						<label class="control-label" for="files">Upload Multiple Files:</label>
+						<label class="control-label" for="files">Загрузить несколько файлов:</label>
 						<input type="file" class="form-control" id="files" 
 								placeholder="Upload Multiple Files"  name="files" multiple></input>
 					</div>
-					<button type="submit" class="btn btn-default" id="btnSubmit">Upload</button>
-					<a href="/files" class="btn btn-default" role="button">Files</a>
+					<button type="submit"
+							name="upload-submit"
+							class="btn btn-default"
+							id="btnSubmit"
+							value="upload">Загрузить</button>
+					<a href="/files" class="btn btn-default" role="button">На страницу файлов</a>
 				</form>
 				<div th:if="${message}">
 					<strong><span th:text="${message}"/></strong>

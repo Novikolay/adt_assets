@@ -11,8 +11,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private LoggingAccessDeniedHandler accessDeniedHandler;
+    private final LoggingAccessDeniedHandler accessDeniedHandler;
+
+    public SecurityConfig(LoggingAccessDeniedHandler accessDeniedHandler) {
+        this.accessDeniedHandler = accessDeniedHandler;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -24,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/css/**",
                         "/img/**",
                         "/webjars/**").permitAll()
-                .antMatchers("/user/**").hasRole("USER")
+                .antMatchers("/main/**").hasRole("USER") // user
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -45,9 +48,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER")
+                .withUser("user").password("{noop}password").roles("USER")
                 .and()
-                .withUser("manager").password("password").roles("MANAGER");
+                .withUser("manager").password("{noop}password").roles("MANAGER");
     }
 
 }

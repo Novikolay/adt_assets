@@ -3,12 +3,12 @@
       xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{fragments/layout}">
 <head>
-    <title>Access Denied</title>
+    <title>Доступ запрещен</title>
 </head>
 <body>
 <div layout:fragment="content" th:remove="tag">
-    <h1>Access denied</h1>
-<!--    <p><a href="/" th:href="@{/}">Back to home page</a></p>-->
+    <h1>Доступ запрещен</h1>
+    <p><a href="/" th:href="@{/}">На страницу авторизации</a></p>
 </div>
 </body>
 </html>

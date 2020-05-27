@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Upload Multiple Files</title>
+<!--<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"-->
+<!--	  xmlns:th="http://www.thymeleaf.org"-->
+<!--	  layout:decorate="~{fragments/layout}">-->
+<!--<head>-->
+    <title>Загрузить несколько файлов</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
@@ -14,25 +18,33 @@
 	<div class="container h-100">
 		<div class="row h-100 justify-content-center align-items-center">
 			<div class="col-md-7 table-responsive">
-				<h2>Uploaded Files</h2>
+				<h2>Загруженные файлы</h2>
 				<table id="customerTable" class="table">
 					<thead>
 						<tr>
-							<th>No</th>
-							<th>Filename</th>
-							<th>Download</th>
+							<th>№</th>
+							<th>Превью</th>
+							<th>Имя файла</th>
+							<th>Тип</th>
+							<th>Статус</th>
+							<th>DRM</th>
+							<th>Загрузить</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="file, rowStat: ${files}">
 					        <td th:text="${rowStat.count}">1</td>
-							<td th:text="${file.filename}">File-Name</td>
-					        <td><a th:href="${file.url}">Link</a></td>
+							<td th:image="${file.preview}" width="30" height="30">Превью</td>
+							<td th:text="${file.filename}">Имя файла</td>
+							<td th:text="${file.type}">Тип</td>
+							<td th:text="${file.status}">Статус</td>
+							<td th:text="${file.drm}">DRM</td>
+					        <td><a th:href="${file.url}">Путь</a></td>
 					    </tr>
 					</tbody>
 				</table>
 				<div>
-					<a href="/" class="btn btn-light btn-block" role="button">Back to Upload Form</a>
+					<a href="/upload" class="btn btn-light btn-block" role="button">На страницу загрузки</a>
 				</div>
 			</div>
 		</div>

@@ -1,5 +1,6 @@
 package web.assets.controller;
 
+import web.assets.model.Banner;
 import web.assets.repository.FileStorage;
 import web.assets.model.FileInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,13 @@ import java.util.stream.Collectors;
 @Controller
 public class DownloadFileController {
 
-	@Autowired
+	final
 	FileStorage fileStorage;
-	
+
+	public DownloadFileController(FileStorage fileStorage) {
+		this.fileStorage = fileStorage;
+	}
+
 	/*
 	 * Retrieve Files' Information
 	 */
@@ -31,15 +36,20 @@ public class DownloadFileController {
 						String filename = path.getFileName().toString();
 						String url = MvcUriComponentsBuilder.fromMethodName(web.assets.controller.DownloadFileController.class,
 		                        "downloadFile", path.getFileName().toString()).build().toString();
-						return new FileInfo(filename, url); 
-					} 
+
+						String preview = path.getFileName().toString();
+						String type = Banner.getType();
+						Boolean status = Banner.getStatus();
+						String drm = Banner.getDRM();
+						return new FileInfo(filename, url, preview, type, status, drm);
+					}
 				)
 				.collect(Collectors.toList());
-		
+
 		model.addAttribute("files", fileInfos);
-		return "listfiles";
+		return "main/listfiles";
 	}
- 
+
     /*
      * Download Files
      */
@@ -48,6 +58,6 @@ public class DownloadFileController {
 		Resource file = fileStorage.loadFile(filename);
 		return ResponseEntity.ok()
 					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
-					.body(file);	
+					.body(file);
 	}
 }
