@@ -89,7 +89,7 @@ public class BannerController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/banner")
     @ResponseBody
-    public List<Banner> search(@RequestParam(value = "search") String search) { //http://localhost:8080/banner?search=type:main,age>25
+    public List<Banner> search(@RequestParam(value = "search") String search) { //http://localhost:8080/banner?search=type:main,drm:L1
         BannerSpecificationsBuilder builder = new BannerSpecificationsBuilder();
         Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
         Matcher matcher = pattern.matcher(search + ",");

@@ -50,3 +50,19 @@
 | 1 | TestBannerOne | F:\Downloads\test\banners\0vCNYWk5E3c.png | main | true | L1 |
 | 2 | TestBannerSecond | F:\Downloads\test\banners\SitWybAH2yc.png | small | false | L3 |
 | 3 | TestBanner3 | F:\Downloads\test\banners\AIo5lWPAkRk.png | info | true | NONE |
+
+### Авторизация
+| | |
+| ---: | :---- |
+|Логин:|user|
+|Пароль:|password|
+
+### Запросы
+* http://localhost:8080/banners — выдает список всех загруженных баннеров
+* http://localhost:8080/banners/{id} — выдает конкретный баннер по его ID
+* http://localhost:8080/banners/main — должно выдавать баннер с type == main, но выдает ошибку
+* http://localhost:8080/banner?search=type:main,drm:L1 — настраиваемый поисковый запрос, но он тоже выдает ошибку.
+
+### Текущие ошибки
+После авторизации открывается страница, где отображаются все загруженные в БД файлы (но они не подгружаются), с нее можно перейти на страницу загрузки новых файлов (но при загрузке другая ошибка — после нажатия "загрузить" страница выдает, что "доступ запрещен"
+
