@@ -7,33 +7,6 @@ import web.assets.repository.FileStorage;
 
 import javax.annotation.Resource;
 
-//@SpringBootApplication
-//public class RestApplication {
-//
-//    public static void main(String[] args) {
-//        SpringApplication.run(RestApplication.class, args);
-//    }
-//
-//}
-
-
-//@SpringBootApplication
-//public class RestApplication implements CommandLineRunner {
-//
-//    @Resource
-//    FileStorage fileStorage;
-//
-//    public static void main(String[] args) {
-//        SpringApplication.run(RestApplication.class, args);
-//    }
-//
-//    @Override
-//    public void run(String... args) throws Exception {
-//        fileStorage.deleteAll();
-//        fileStorage.init();
-//    }
-//}
-
 @SpringBootApplication
 public class RestApplication implements CommandLineRunner {
 

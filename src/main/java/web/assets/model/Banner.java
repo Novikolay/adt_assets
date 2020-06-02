@@ -21,13 +21,13 @@ public class Banner {
     private String path;
 
     @Column(name = "type")
-    private static String type;
+    private String type;
 
     @Column(name = "status")
-    private static Boolean status;
+    private Boolean status;
 
     @Column(name = "drm")
-    private static String drm;
+    private String drm;
 
     public Integer getId() {
         return id;
@@ -53,7 +53,7 @@ public class Banner {
         this.path = path;
     }
 
-    public static String getType() {
+    public String getType() {
         return type;
     }
 
@@ -61,7 +61,7 @@ public class Banner {
         this.type = type;
     }
 
-    public static Boolean getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
@@ -69,7 +69,7 @@ public class Banner {
         this.status = status;
     }
 
-    public static String getDRM() {
+    public String getDRM() {
         return drm;
     }
 

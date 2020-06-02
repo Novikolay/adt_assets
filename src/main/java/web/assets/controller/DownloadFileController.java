@@ -37,11 +37,11 @@ public class DownloadFileController {
 						String url = MvcUriComponentsBuilder.fromMethodName(web.assets.controller.DownloadFileController.class,
 		                        "downloadFile", path.getFileName().toString()).build().toString();
 
-						String preview = path.getFileName().toString();
-						String type = Banner.getType();
-						Boolean status = Banner.getStatus();
-						String drm = Banner.getDRM();
-						return new FileInfo(filename, url, preview, type, status, drm);
+//						String preview = path.getFileName().toString();
+//						String type = Banner.getType();
+//						Boolean status = Banner.getStatus();
+//						String drm = Banner.getDRM();
+						return new FileInfo(filename, url); //, preview, type, status, drm
 					}
 				)
 				.collect(Collectors.toList());
