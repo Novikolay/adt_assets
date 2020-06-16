@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <title>Управление главными баннерами</title>
+</head>
+<!--<body>
+<div layout:fragment="content" th:remove="tag">
+    <h1>Управление баннерами</h1>
+    <div class="row">-->
+    <body>
+    <div layout:fragment="content" th:remove="tag" class="container h-200">
+        <div class="row h-200 justify-content-center align-items-center">
+            <div class="col-md-7 table-responsive">
+            <h2>Управление главными банерами</h2>
+            <table id="customerTable" class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Превью</th>
+                    <th>Имя файла</th>
+                    <th>Тип</th>
+                    <th>Статус</th>
+                    <th>DRM</th>
+                    <th>Обновить</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="file, rowStat: ${files}">
+                    <!--<td th:text="${rowStat.count}">1</td>-->
+                    <td th:text="${file.id}" th:field="${file.id}">ID</td>
+                    <td><a th:href="${file.path}"><img th:src="@{/img/logo.jpeg}" alt="Preview" width="20" height="20"/></a></td><!--${file.path}-->
+                    <td th:text="${file.name}">Имя файла</td>
+                    <td th:text="${file.type}">Тип</td>
+                    <td th:text="${file.status} ? 'true' : 'false'">Статус</td>
+                    <td th:text="${file.type}">DRM</td><!--<td th:text="${file.drm}">DRM</td>-->
+
+                    <td>
+                        <form action="#" th:action="'/banner/main/' + ${file.id}" th:object="${file}" method="post">
+                            <!--<p th:text="'content: ' + ${greeting.content}"/>-->
+                            <!--<input type="file" class="form-control" id="file" placeholder="Upload File" name="file"/>-->
+                            <p>Test Path Field: <input type="text" th:field="*{path}" /></p>
+                            <input type="submit" value="Обновить" />
+                        </form>
+                    </td>
+<!--                    <p>Message: <label>-->
+<!--                        &lt;!&ndash;<input type="text" th:field="${file.path}"/>&ndash;&gt;-->
+<!--                    </label></p>-->
+<!--                    &lt;!&ndash;<input type="file" th:field="${file.path}">&ndash;&gt;-->
+
+<!--                    th:text="${file.path}"-->
+<!--                    <form method="POST" enctype="multipart/form-data" id="fileUploadForm">-->
+<!--                        <div class="form-group">-->
+<!--&lt;!&ndash;                            <label class="control-label" for="files">Загрузить несколько файлов:</label>&ndash;&gt;-->
+<!--                            <input type="file" class="form-control" id="files"-->
+<!--                                   placeholder="Upload Multiple Files" name="files"></input>-->
+<!--                        </div>-->
+<!--                        <button type="submit"-->
+<!--                                name="upload-submit"-->
+<!--                                class="btn btn-default"-->
+<!--                                id="btnSubmit"-->
+<!--                                value="upload">Обновить файл</button>-->
+<!--&lt;!&ndash;                        <div class="form-group col-6">&ndash;&gt;-->
+<!--&lt;!&ndash;                            &lt;!&ndash;<label class="control-label" for="file">Загрузить:</label>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <input type="file" class="form-control" id="file" placeholder="Upload File"  name="file" multiple></input>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                            &lt;!&ndash;<input type="file" class="form-control-file" id="path">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                            &lt;!&ndash;custom-file&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                            <input type="file" class="custom-file-input" id="path" name="path" >&ndash;&gt;-->
+<!--&lt;!&ndash;                            <label th:text="${file.path}" class="custom-file-label" for="path"></label>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <button type="submit"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    name="upload-submit"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    class="btn btn-default"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    id="btnSubmit"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    value="upload">Обновить файл</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                    </form>-->
+                    <!--<td><a th:href="${file.path}">Путь</a></td>-->
+                </tr>
+                </tbody>
+            </table>
+            <div>
+                <a href="/banner/info" class="btn btn-primary btn-block" role="button">На страницу информационных баннеров</a>
+                <a href="/banner/control" class="btn btn-warning btn-block" role="button">На главную</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

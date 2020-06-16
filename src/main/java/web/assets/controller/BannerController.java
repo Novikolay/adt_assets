@@ -1,104 +1,135 @@
 package web.assets.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import web.assets.model.Banner;
-import web.assets.repository.BannerRepository;
+//import web.assets.repository.BannerRepository;
+import web.assets.request.BannerRequest;
 import web.assets.service.BannerService;
-import web.assets.service.BannerSpecification;
+//import web.assets.service.BannerSpecification;
 //import web.assets.service.BannerSpecificationsBuilder;
-import web.assets.service.BannerSpecificationsBuilder;
-import web.assets.service.SearchCriteria;
+//import web.assets.service.BannerSpecificationsBuilder;
 
+import java.util.Iterator;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @RestController
+//@RequestMapping(value = "/banner", produces = MediaType.APPLICATION_JSON_VALUE)
 public class BannerController {
 
     private final BannerService bannerService;
-    private final BannerRepository bannerRepository;
 
     @Autowired
-    public BannerController(BannerService bannerService, BannerRepository bannerRepository) {
+    public BannerController(BannerService bannerService) {
         this.bannerService = bannerService;
-        this.bannerRepository = bannerRepository;
     }
 
-    @PostMapping(value = "/banners")
-    public ResponseEntity<?> create(@RequestBody Banner banner) {
-        bannerService.create(banner);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @GetMapping(value = "/banner/{bannerID:\\d+}")
+    public Banner getProfile(@PathVariable int bannerID) {
+        return bannerService.getBanner(bannerID);
     }
 
-    @GetMapping(value = "/banners")
-    public ResponseEntity<List<Banner>> read() {
-        final List<Banner> banners = bannerService.readAll();
-
-        return banners != null &&  !banners.isEmpty()
-                ? new ResponseEntity<>(banners, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    /** Получение основного информационного банера
+     * Пример запроса: http://localhost:8080/banner/main/true&L1
+     * @param status    -- статус услуги (подключена == true, не подключена == false), обязательный параметр
+     * @param drm       -- уровень защиты (если есть == L1/L2/L3), не обязательный параметр
+     * @return
+     */
+    @GetMapping(value = "/banner/main/{status}&{drm}")
+    public Banner getBannerMain(@PathVariable(name = "status") boolean status, @PathVariable(name = "drm") String drm) {
+        return bannerService.getBannerMain(status, drm);
     }
 
-    @GetMapping(value = "/banners/{id}")
-    public ResponseEntity<Banner> read(@PathVariable(name = "id") int id) {
-        final Banner banner = bannerService.read(id);
-
-        return banner != null
-                ? new ResponseEntity<>(banner, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    /** Получение двух комплектов вспомогательных информационных банеров (массивом)
+     * Пример запроса: http://localhost:8080/banner/complex/true&L2
+     * @param status    -- статус услуги (подключена == true, не подключена == false), обязательный параметр
+     * @param drm       -- уровень защиты (если есть == L1/L2/L3), не обязательный параметр
+     * @return
+     */
+    @GetMapping(value = "/banner/complex/{status}&{drm}")
+    public List<Banner> getBannerComplex(@PathVariable(name = "status") boolean status, @PathVariable(name = "drm") String drm) {
+        return bannerService.getBannerComplex(status, drm);
     }
 
-    @PutMapping(value = "/banners/{id}")
-    public ResponseEntity<?> update(@PathVariable(name = "id") int id, @RequestBody Banner banner) {
-        final boolean updated = bannerService.update(banner, id);
-
-        return updated
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+    @RequestMapping(value = "/banner/main", method = RequestMethod.GET)
+    public ModelAndView bannerMain() {
+        List<Banner> bannerInfo = bannerService.getBannerByType("main");
+        ModelAndView mav = new ModelAndView("main/main");
+        mav.addObject("files", bannerInfo);
+        return mav;
     }
 
-    @DeleteMapping(value = "/banners/{id}")
-    public ResponseEntity<?> delete(@PathVariable(name = "id") int id) {
-        final boolean deleted = bannerService.delete(id);
-
-        return deleted
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+    @RequestMapping(value = "/banner/info", method = RequestMethod.GET)
+    public ModelAndView bannerInfo() {
+        List<Banner> bannerInfo = bannerService.getBannerNotByType("main");
+        ModelAndView mav = new ModelAndView("main/info");
+        mav.addObject("files", bannerInfo);
+        return mav;
     }
 
-    @RequestMapping("/")
-    @ResponseBody
-    public String welcome() {
-        return "Welcome to RestTemplate Example.";
-    }
+    //updateBannerFile(String path, int id)
+//    @GetMapping(value = "/banner/{bannerID:\\d+}")
+//    @GetMapping(value = "/{personId:\\d+}")
 
-    @RequestMapping("/banners/main")
-    public void givenLast_whenGettingListOfUsers_thenCorrect() {
-        BannerSpecification spec =
-                new BannerSpecification(new SearchCriteria("type", ":", "main"));
+//    @PostMapping(value = "/banner/main/{bannerID:\\d+}")
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    public void updateBannerFile(
+//            //@Valid @RequestBody BannerRequest request,
+//            @RequestBody BannerRequest request,
+//            @PathVariable int bannerID
+//    ) {
+//        bannerService.updateBannerFile(
+//                request.getPath(),
+//                bannerID
+//        );
+//    }
 
-        List<Banner> results = bannerRepository.findAll(spec);
-    }
+//    @RequestMapping(value = "/banner/main/{bannerID:\\d+}", method = RequestMethod.POST)
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    public void updateBannerFile(
+//            //@Valid @RequestBody BannerRequest request,
+//            @RequestBody BannerRequest request,
+//            @PathVariable int bannerID
+//    ) {
+//        bannerService.updateBannerFile(
+//                request.getPath(),
+//                bannerID
+//        );
+//    }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/banner")
-    @ResponseBody
-    public List<Banner> search(@RequestParam(value = "search") String search) { //http://localhost:8080/banner?search=type:main,drm:L1
-        BannerSpecificationsBuilder builder = new BannerSpecificationsBuilder();
-        Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
-        Matcher matcher = pattern.matcher(search + ",");
-        while (matcher.find()) {
-            builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
-        }
+//    @PostMapping("/banner/main")
+//    public String bannerUpdateSubmit(@RequestParam("updatedbanner") Banner banner, Model model) {
 
-        Specification<Banner> spec = builder.build();
-        return bannerRepository.findAll(spec);
+    @RequestMapping(value="/banner/main", method=RequestMethod.POST)
+    public Banner bannerUpdateSubmit(@ModelAttribute Banner banner, Model model) {
+        model.addAttribute("file", banner);
+        return banner;
     }
 
 }
+
+//    private final BannerService bannerService;
+//    //private final BannerRepository bannerRepository;
+//
+//    @Autowired
+//    public BannerController(BannerService bannerService) { //, BannerRepository bannerRepository
+//        this.bannerService = bannerService;
+//        //this.bannerRepository = bannerRepository;
+//    }
+//
+////
+////    @PutMapping(value = "/banners/{id}")
+////    public ResponseEntity<?> update(@PathVariable(name = "id") int id, @RequestBody Banner banner) {
+////        final boolean updated = bannerService.update(banner, id);
+////
+////        return updated
+////                ? new ResponseEntity<>(HttpStatus.OK)
+////                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+////    }

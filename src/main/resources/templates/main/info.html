@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <title>Управление дополнительными баннерами</title>
+</head>
+<!--<body>
+<div layout:fragment="content" th:remove="tag">
+    <h1>Управление баннерами</h1>
+    <div class="row">-->
+<body>
+<div layout:fragment="content" th:remove="tag" class="container h-200">
+    <div class="row h-200 justify-content-center align-items-center">
+        <div class="col-md-7 table-responsive">
+        <h2>Управление дополнительными банерами</h2>
+        <table id="customerTable" class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Превью</th>
+                <th>Имя файла</th>
+                <th>Тип</th>
+                <th>Статус</th>
+                <th>DRM</th>
+                <!--<th>Загрузить</th>-->
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="file, rowStat: ${files}">
+                <!--<td th:text="${rowStat.count}">1</td>-->
+                <td th:text="${file.id}">ID</td>
+                <td><img th:src="@{file.path}" width="15" alt=""/>Превью</td>
+                <td th:text="${file.name}">Имя файла</td>
+                <td th:text="${file.type}">Тип</td>
+                <td th:text="${file.status} ? 'true' : 'false'">Статус</td>
+                <td th:text="${file.type}">DRM</td>
+                <!--<td th:text="${file.drm}">DRM</td>-->
+                <!--<td><a th:href="${file.path}">Путь</a></td>-->
+            </tr>
+            </tbody>
+        </table>
+            <div>
+                <a href="/banner/main" class="btn btn-primary btn-block" role="button">На страницу главных баннеров</a>
+                <a href="/banner/control" class="btn btn-warning btn-block" role="button">На главную</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

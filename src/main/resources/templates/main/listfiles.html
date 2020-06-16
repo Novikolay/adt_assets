@@ -28,18 +28,20 @@
 							<th>Тип</th>
 							<th>Статус</th>
 							<th>DRM</th>
-							<th>Загрузить</th>
+<!--							<th>Загрузить</th>-->
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="file, rowStat: ${files}">
-					        <td th:text="${rowStat.count}">1</td>
-							<td th:image="${file.preview}" width="30" height="30">Превью</td>
-							<td th:text="${file.filename}">Имя файла</td>
-							<td th:text="${file.type}">Тип</td>
-							<td th:text="${file.status}">Статус</td>
-							<td th:text="${file.drm}">DRM</td>
-					        <td><a th:href="${file.url}">Путь</a></td>
+<!--						<td th:text="${rowStat.count}">1</td>-->
+						<td th:text="${file.id}">ID</td>
+						<td><img th:src="@{file.path}" width="15" alt=""/>Превью</td>
+						<td th:text="${file.name}">Имя файла</td>
+						<td th:text="${file.type}">Тип</td>
+						<td th:text="${file.status} ? 'true' : 'false'">Статус</td>
+						<td th:text="${file.type}">DRM</td>
+<!--						<td th:text="${file.drm}">DRM</td>-->
+<!--						<td><a th:href="${file.path}">Путь</a></td>-->
 					    </tr>
 					</tbody>
 				</table>
