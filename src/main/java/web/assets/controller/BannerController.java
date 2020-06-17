@@ -2,23 +2,18 @@ package web.assets.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import web.assets.model.Banner;
-//import web.assets.repository.BannerRepository;
-import web.assets.request.BannerRequest;
 import web.assets.service.BannerService;
+
+import java.util.List;
+
+//import web.assets.repository.BannerRepository;
 //import web.assets.service.BannerSpecification;
 //import web.assets.service.BannerSpecificationsBuilder;
 //import web.assets.service.BannerSpecificationsBuilder;
-
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 //@RequestMapping(value = "/banner", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -78,18 +73,20 @@ public class BannerController {
 //    @GetMapping(value = "/banner/{bannerID:\\d+}")
 //    @GetMapping(value = "/{personId:\\d+}")
 
-//    @PostMapping(value = "/banner/main/{bannerID:\\d+}")
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    public void updateBannerFile(
-//            //@Valid @RequestBody BannerRequest request,
+    @PostMapping(value = "/banner/main/{bannerID:\\d+}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateBannerFile(
+            //@Valid @RequestBody BannerRequest request,
 //            @RequestBody BannerRequest request,
-//            @PathVariable int bannerID
-//    ) {
+            @PathVariable int bannerID,
+            MultipartFile file
+    ) {
 //        bannerService.updateBannerFile(
 //                request.getPath(),
 //                bannerID
 //        );
-//    }
+        System.out.println(bannerID + " " + file);
+    }
 
 //    @RequestMapping(value = "/banner/main/{bannerID:\\d+}", method = RequestMethod.POST)
 //    @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -107,11 +104,11 @@ public class BannerController {
 //    @PostMapping("/banner/main")
 //    public String bannerUpdateSubmit(@RequestParam("updatedbanner") Banner banner, Model model) {
 
-    @RequestMapping(value="/banner/main", method=RequestMethod.POST)
-    public Banner bannerUpdateSubmit(@ModelAttribute Banner banner, Model model) {
-        model.addAttribute("file", banner);
-        return banner;
-    }
+//    @RequestMapping(value="/banner/main", method=RequestMethod.POST)
+//    public String bannerUpdateSubmit(@ModelAttribute Banner banner, Model model) {
+//        model.addAttribute("file", banner);
+//        return "banner";
+//    }
 
 }
 
