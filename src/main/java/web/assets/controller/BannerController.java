@@ -1,23 +1,28 @@
 package web.assets.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import web.assets.model.Banner;
+import web.assets.request.BannerRequest;
 import web.assets.service.BannerService;
+import web.assets.service.BannerServiceImpl;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Iterator;
 import java.util.List;
-
-//import web.assets.repository.BannerRepository;
-//import web.assets.service.BannerSpecification;
-//import web.assets.service.BannerSpecificationsBuilder;
-//import web.assets.service.BannerSpecificationsBuilder;
 
 @RestController
 //@RequestMapping(value = "/banner", produces = MediaType.APPLICATION_JSON_VALUE)
 public class BannerController {
+
+    @Value("${bannersLocationPath}")
+    private String bannersLocationPath;
 
     private final BannerService bannerService;
 
@@ -55,9 +60,19 @@ public class BannerController {
 
     @RequestMapping(value = "/banner/main", method = RequestMethod.GET)
     public ModelAndView bannerMain() {
-        List<Banner> bannerInfo = bannerService.getBannerByType("main");
+        List<Banner> banners = bannerService.getBannerByType("main");
+        int i = 0;
+        for(Banner banner : banners){
+            String path = banner.getPath();
+            System.out.println(bannersLocationPath);
+            String img = path.replace(bannersLocationPath, "").replace("//", "/testbanners/");
+            System.out.println(img);
+            banner.setIMG(img);
+            banners.set(i, banner);
+            i++;
+        }
         ModelAndView mav = new ModelAndView("main/main");
-        mav.addObject("files", bannerInfo);
+        mav.addObject("files", banners);
         return mav;
     }
 
@@ -69,64 +84,16 @@ public class BannerController {
         return mav;
     }
 
-    //updateBannerFile(String path, int id)
-//    @GetMapping(value = "/banner/{bannerID:\\d+}")
-//    @GetMapping(value = "/{personId:\\d+}")
-
     @PostMapping(value = "/banner/main/{bannerID:\\d+}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateBannerFile(
-            //@Valid @RequestBody BannerRequest request,
-//            @RequestBody BannerRequest request,
+    public String updateBannerFile(
             @PathVariable int bannerID,
-            MultipartFile file
+            MultipartFile path
     ) {
-//        bannerService.updateBannerFile(
-//                request.getPath(),
-//                bannerID
-//        );
-        System.out.println(bannerID + " " + file);
+        bannerService.storeBanner(bannerID, path);
+        System.out.println("bannerID: " + bannerID);
+        System.out.println("path: " + path);
+        System.out.println("OriginalFilename: " + path.getOriginalFilename());
+        return "Done";
     }
-
-//    @RequestMapping(value = "/banner/main/{bannerID:\\d+}", method = RequestMethod.POST)
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    public void updateBannerFile(
-//            //@Valid @RequestBody BannerRequest request,
-//            @RequestBody BannerRequest request,
-//            @PathVariable int bannerID
-//    ) {
-//        bannerService.updateBannerFile(
-//                request.getPath(),
-//                bannerID
-//        );
-//    }
-
-//    @PostMapping("/banner/main")
-//    public String bannerUpdateSubmit(@RequestParam("updatedbanner") Banner banner, Model model) {
-
-//    @RequestMapping(value="/banner/main", method=RequestMethod.POST)
-//    public String bannerUpdateSubmit(@ModelAttribute Banner banner, Model model) {
-//        model.addAttribute("file", banner);
-//        return "banner";
-//    }
-
 }
-
-//    private final BannerService bannerService;
-//    //private final BannerRepository bannerRepository;
-//
-//    @Autowired
-//    public BannerController(BannerService bannerService) { //, BannerRepository bannerRepository
-//        this.bannerService = bannerService;
-//        //this.bannerRepository = bannerRepository;
-//    }
-//
-////
-////    @PutMapping(value = "/banners/{id}")
-////    public ResponseEntity<?> update(@PathVariable(name = "id") int id, @RequestBody Banner banner) {
-////        final boolean updated = bannerService.update(banner, id);
-////
-////        return updated
-////                ? new ResponseEntity<>(HttpStatus.OK)
-////                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-////    }

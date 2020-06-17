@@ -28,6 +28,8 @@ public class Banner {
 
     @Column(name = "drm")
     private String drm;
+    
+    public String img;
 
     public Integer getId() {
         return id;
@@ -77,4 +79,11 @@ public class Banner {
         this.drm = drm;
     }
 
+    public String getIMG() {
+        return img;
+    }
+
+    public void setIMG(String img) {
+        this.img = img;
+    }
 }

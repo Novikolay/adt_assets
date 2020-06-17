@@ -1,5 +1,6 @@
 package web.assets.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import web.assets.model.Banner;
 
 import java.nio.file.Path;
@@ -65,4 +66,6 @@ public interface BannerService {
      * @param id   -- ID баннера, который нужно обновить
      */
     void updateBannerFile(String path, int id);
+
+    void storeBanner(int id, MultipartFile file);
 }
