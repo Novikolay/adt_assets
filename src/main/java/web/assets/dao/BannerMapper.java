@@ -18,7 +18,7 @@ public class BannerMapper implements RowMapper<Banner> {
         banner.setPath(rs.getString("path"));
         banner.setType(rs.getString("type"));
         banner.setStatus(rs.getBoolean("status"));
-        banner.setDRM(rs.getString("drm"));
+        banner.setDrm(rs.getString("drm"));
         return banner;
     }
 }

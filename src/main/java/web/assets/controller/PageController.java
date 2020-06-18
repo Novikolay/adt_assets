@@ -1,11 +1,7 @@
 package web.assets.controller;
 
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class PageController {
@@ -15,7 +11,7 @@ public class PageController {
 		return "redirect:banner/control";
 	}
 
-	@GetMapping("/login") //login
+	@GetMapping("/login")
 	public String login() {
 		return "login";
 	}

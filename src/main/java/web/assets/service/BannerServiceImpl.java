@@ -74,7 +74,7 @@ public class BannerServiceImpl implements BannerService {
     @Override
     public void storeBanner(int id, MultipartFile file){
         if (!file.isEmpty()) {
-            System.out.println("bannersLocationPath: " + Paths.get(bannersLocationPath));
+            //System.out.println("bannersLocationPath: " + Paths.get(bannersLocationPath));
             try {
                 String pathToBanner = File.separator + Paths.get(bannersLocationPath) + File.separator + file.getOriginalFilename();
                 byte[] bytes = file.getBytes();
@@ -85,6 +85,7 @@ public class BannerServiceImpl implements BannerService {
                 Banner banner = bannerDao.getBannerById(id)
                         .orElseThrow(() -> new BannerNotFoundException(id));
                 bannerDao.updateBannerFile(pathToBanner, banner.getId());
+                //test
                 //return "Вы удачно загрузили " + file.getOriginalFilename() + " в " + "/home/novikolay/test/download/" + file.getOriginalFilename();
             } catch (Exception e) {
                 //return "Вам не удалось загрузить " + file.getOriginalFilename() + " => " + e.getMessage();

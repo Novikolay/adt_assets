@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/banner/*",
                         "/banner/main/*",
                         "/banner/complex/*").permitAll()
-                .antMatchers("/main/**").hasRole("USER") // user
+                .antMatchers("/main/**").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -50,9 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("user").password("{noop}password").roles("USER")
-                .and()
-                .withUser("manager").password("{noop}password").roles("MANAGER");
+                .withUser("user").password("{noop}password").roles("USER");
     }
 
 }

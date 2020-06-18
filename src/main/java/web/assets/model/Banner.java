@@ -24,7 +24,7 @@ public class Banner {
     private String type;
 
     @Column(name = "status")
-    private Boolean status;
+    private boolean status;
 
     @Column(name = "drm")
     private String drm;
@@ -71,19 +71,19 @@ public class Banner {
         this.status = status;
     }
 
-    public String getDRM() {
+    public String getDrm() {
         return drm;
     }
 
-    public void setDRM(String drm) {
+    public void setDrm(String drm) {
         this.drm = drm;
     }
 
-    public String getIMG() {
+    public String getImg() {
         return img;
     }
 
-    public void setIMG(String img) {
+    public void setImg(String img) {
         this.img = img;
     }
 }

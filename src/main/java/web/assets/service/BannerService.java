@@ -8,15 +8,6 @@ import java.util.List;
 
 public interface BannerService {
 
-//    /**
-//     * Обновляет баннер с заданным ID,
-//     * в соответствии с переданным баннером
-//     * @param banner - баннер, в соответствии с которым нужно обновить данные
-//     * @param id - id баннера, который нужно обновить
-//     * @return - true если данные были обновлены, иначе false
-//     */
-//    boolean update(Banner banner, int id);
-
     /**
      * Возвращает баннер по его ID
      * @param bannerID -- ID баннера
@@ -66,6 +57,5 @@ public interface BannerService {
      * @param id   -- ID баннера, который нужно обновить
      */
     void updateBannerFile(String path, int id);
-
     void storeBanner(int id, MultipartFile file);
 }
