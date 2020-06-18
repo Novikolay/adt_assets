@@ -3,19 +3,16 @@
       xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{fragments/layout}">
 <head>
-    <meta charset="UTF-8">
-    <title>404 - resource not found</title>
+    <title>Управление баннерами</title>
 </head>
 <body>
-
-<h2>404 - Resource not found</h2>
-
-<p>
-    The requested resource was not found; template - specific
-</p>
-
-<p th:text="${error}">Error Info</p>
-<p th:text="${status}">Status</p>
-
+<div layout:fragment="content" th:remove="tag">
+    <div class="col-md-7 h-100 justify-content-center align-items-center">
+        <h2>404 - Resource not found</h2>
+        <p>The requested resource was not found; template - specific</p>
+        <p th:text="${error}">Error Info</p>
+        <p th:text="${status}">Status</p>
+    </div>
+</div>
 </body>
 </html>

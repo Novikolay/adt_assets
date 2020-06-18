@@ -3,6 +3,7 @@ package web.assets.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -37,8 +38,8 @@ public class BannerController {
      * @return
      */
     @GetMapping(value = "/banner/main/{status}&{drm}")
-    public Banner getBannerMain(@PathVariable(name = "status") boolean status, @PathVariable(name = "drm") String drm) {
-        if (drm == null) { drm = "NONE";}
+    public Banner getBannerMain(@PathVariable(name = "status") boolean status, @PathVariable(name = "drm", required = false) String drm) {
+        if (drm.equals("L1") || drm.equals("L2") || drm.equals("L3") ) { drm = drm; } else { drm = "NONE";}
         return bannerService.getBannerMain(status, drm);
     }
 
@@ -49,8 +50,8 @@ public class BannerController {
      * @return
      */
     @GetMapping(value = "/banner/complex/{status}&{drm}")
-    public List<Banner> getBannerComplex(@PathVariable(name = "status") boolean status, @PathVariable(name = "drm") String drm) {
-        if (drm == null) { drm = "NONE";}
+    public List<Banner> getBannerComplex(@PathVariable(name = "status") boolean status, @PathVariable(name = "drm", required = false) String drm) {
+        if (drm.equals("L1") || drm.equals("L2") || drm.equals("L3") ) { drm = drm; } else { drm = "NONE";}
         return bannerService.getBannerComplex(status, drm);
     }
 
