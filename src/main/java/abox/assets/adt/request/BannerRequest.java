@@ -1,4 +1,4 @@
-//package web.assets.request;;
+//package abox.assets.adt.request;;
 //
 //public class BannerRequest {
 //    private String path;

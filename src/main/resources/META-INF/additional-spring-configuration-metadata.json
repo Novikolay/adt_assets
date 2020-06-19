@@ -4,5 +4,15 @@
       "name": "bannersLocationPath",
       "type": "java.lang.String",
       "description": "Description for bannersLocationPath."
-  }
-] }
+    },
+    {
+      "name": "adminUsername",
+      "type": "java.lang.String",
+      "description": "Description for adminUsername."
+    },
+    {
+      "name": "adminPassword",
+      "type": "java.lang.String",
+      "description": "Description for adminPassword."
+    }
+  ] }

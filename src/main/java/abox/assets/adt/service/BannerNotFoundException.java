@@ -1,4 +1,4 @@
-package web.assets.service;
+package abox.assets.adt.service;
 
 public class BannerNotFoundException extends RuntimeException {
     private final String bannerID;

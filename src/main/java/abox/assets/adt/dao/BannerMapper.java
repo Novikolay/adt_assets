@@ -1,6 +1,6 @@
-package web.assets.dao;
+package abox.assets.adt.dao;
 
-import web.assets.model.Banner;
+import abox.assets.adt.model.Banner;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 

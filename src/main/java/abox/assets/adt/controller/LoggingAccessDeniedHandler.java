@@ -1,4 +1,4 @@
-package web.assets.controller;
+package abox.assets.adt.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

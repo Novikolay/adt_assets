@@ -1,7 +1,7 @@
-package web.assets.service;
+package abox.assets.adt.service;
 
 import org.springframework.web.multipart.MultipartFile;
-import web.assets.model.Banner;
+import abox.assets.adt.model.Banner;
 
 import java.nio.file.Path;
 import java.util.List;

@@ -1,4 +1,4 @@
-package web.assets;
+package abox.assets.adt;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

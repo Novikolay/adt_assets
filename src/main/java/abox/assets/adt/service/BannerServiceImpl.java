@@ -1,11 +1,11 @@
-package web.assets.service;
+package abox.assets.adt.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
-import web.assets.dao.BannerDao;
-import web.assets.model.Banner;
+import abox.assets.adt.dao.BannerDao;
+import abox.assets.adt.model.Banner;
 
 import java.io.BufferedOutputStream;
 import java.io.File;

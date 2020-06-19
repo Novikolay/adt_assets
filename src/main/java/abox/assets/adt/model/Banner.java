@@ -1,4 +1,4 @@
-package web.assets.model;
+package abox.assets.adt.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

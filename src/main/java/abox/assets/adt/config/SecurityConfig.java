@@ -1,14 +1,21 @@
-package web.assets.config;
+package abox.assets.adt.config;
 
+import abox.assets.adt.controller.LoggingAccessDeniedHandler;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import web.assets.controller.LoggingAccessDeniedHandler;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Value("${adminUsername}")
+    private String adminUsername;
+
+    @Value("${adminPassword}")
+    private String adminPassword;
 
     private final LoggingAccessDeniedHandler accessDeniedHandler;
 
@@ -50,7 +57,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("user").password("{noop}password").roles("USER");
+                .withUser(adminUsername)
+                .password("{noop}" + adminPassword)
+                .roles("USER");
     }
 
 }

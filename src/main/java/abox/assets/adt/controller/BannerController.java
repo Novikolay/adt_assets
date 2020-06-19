@@ -1,4 +1,4 @@
-package web.assets.controller;
+package abox.assets.adt.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -7,8 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import web.assets.model.Banner;
-import web.assets.service.BannerService;
+import abox.assets.adt.model.Banner;
+import abox.assets.adt.service.BannerService;
 
 import java.util.List;
 
@@ -26,31 +26,38 @@ public class BannerController {
         this.bannerService = bannerService;
     }
 
+    /** Получение банера по его ID
+     * Пример запроса: http://localhost:8080/banner/10
+     * @param bannerID  id баннера в БД
+     * @return
+     */
     @GetMapping(value = "/banner/{bannerID:\\d+}")
     public Banner getProfile(@PathVariable int bannerID) {
         return bannerService.getBanner(bannerID);
     }
 
     /** Получение основного информационного банера
-     * Пример запроса: http://localhost:8080/banner/main/true&L1
-     * @param status    -- статус услуги (подключена == true, не подключена == false), обязательный параметр
-     * @param drm       -- уровень защиты (если есть == L1/L2/L3), не обязательный параметр
+     * Пример запроса: http://localhost:8080/banner/main?status=true&drm=L1
+     * @param status    статус услуги (подключена == true, не подключена == false), обязательный параметр
+     * @param drm       уровень защиты (если есть == L1/L2/L3), не обязательный параметр
      * @return
      */
-    @GetMapping(value = "/banner/main/{status}&{drm}")
-    public Banner getBannerMain(@PathVariable(name = "status") boolean status, @PathVariable(name = "drm", required = false) String drm) {
+    @GetMapping("/banner/main")
+    @ResponseBody
+    public Banner getBannerMain(@RequestParam(name = "status") boolean status, @RequestParam(name = "drm", required = false) String drm) {
         if (drm.equals("L1") || drm.equals("L2") || drm.equals("L3") ) { drm = drm; } else { drm = "NONE";}
         return bannerService.getBannerMain(status, drm);
     }
 
     /** Получение двух комплектов вспомогательных информационных банеров (массивом)
-     * Пример запроса: http://localhost:8080/banner/complex/true&L2
-     * @param status    -- статус услуги (подключена == true, не подключена == false), обязательный параметр
-     * @param drm       -- уровень защиты (если есть == L1/L2/L3), не обязательный параметр
+     * Пример запроса: http://localhost:8080/complex/main?status=false&drm=L2
+     * @param status    статус услуги (подключена == true, не подключена == false), обязательный параметр
+     * @param drm       уровень защиты (если есть == L1/L2/L3), не обязательный параметр
      * @return
      */
-    @GetMapping(value = "/banner/complex/{status}&{drm}")
-    public List<Banner> getBannerComplex(@PathVariable(name = "status") boolean status, @PathVariable(name = "drm", required = false) String drm) {
+    @GetMapping("/banner/complex")
+    @ResponseBody
+    public List<Banner> getBannerComplex(@RequestParam(name = "status") boolean status, @RequestParam(name = "drm", required = false) String drm) {
         if (drm.equals("L1") || drm.equals("L2") || drm.equals("L3") ) { drm = drm; } else { drm = "NONE";}
         return bannerService.getBannerComplex(status, drm);
     }

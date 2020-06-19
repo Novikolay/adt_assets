@@ -1,4 +1,4 @@
-package web.assets.controller;
+package abox.assets.adt.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

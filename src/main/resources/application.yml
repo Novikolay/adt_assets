@@ -1,0 +1,38 @@
+bannersLocationPath: home/novikolay/develop/adt_assets/src/main/resources/static/testbanners
+adminUsername: user
+adminPassword: password
+#password
+logging:
+    level:
+        com:
+            memorynotfound: DEBUG
+        org:
+            springframework:
+                security: INFO
+                web: INFO
+        root: WARN
+server:
+    port: 8080
+spring:
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        password: 123
+        url: jdbc:postgresql://localhost:5432/adt_content
+        username: test
+    jpa:
+        database: postgresql
+        database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    servlet:
+        multipart:
+            max-file-size: 128MB
+            max-request-size: 128MB
+    thymeleaf:
+        cache: false
+        check-template: true
+        check-template-location: true
+        content-type: text/html
+        enabled: true
+        encoding: UTF-8
+        mode: HTML
+        prefix: classpath:/templates/
+        suffix: .html
