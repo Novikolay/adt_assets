@@ -3,7 +3,6 @@ package abox.assets.adt.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,9 +30,9 @@ public class BannerController {
      * @param bannerID  id баннера в БД
      * @return
      */
-    @GetMapping(value = "/banner/{bannerID:\\d+}")
-    public Banner getProfile(@PathVariable int bannerID) {
-        return bannerService.getBanner(bannerID);
+    @GetMapping(value = "/banner/{bannerID:\\d+}") //@RequestMapping(value = "/banner/{bannerID:\\d+}", method = RequestMethod.GET)
+    public Banner getBanner(@PathVariable int bannerID) {
+        return bannerService.getOne(bannerID);
     }
 
     /** Получение основного информационного банера
@@ -42,11 +41,11 @@ public class BannerController {
      * @param drm       уровень защиты (если есть == L1/L2/L3), не обязательный параметр
      * @return
      */
-    @GetMapping("/banner/main")
+    @GetMapping("/banner/main") //@RequestMapping(value = "/banner/main", method = RequestMethod.GET)
     @ResponseBody
-    public Banner getBannerMain(@RequestParam(name = "status") boolean status, @RequestParam(name = "drm", required = false) String drm) {
+    public List<Banner> getBannerMain(@RequestParam(name = "status") boolean status, @RequestParam(name = "drm", required = false) String drm) {
         if (drm.equals("L1") || drm.equals("L2") || drm.equals("L3") ) { drm = drm; } else { drm = "NONE";}
-        return bannerService.getBannerMain(status, drm);
+        return bannerService.findByTypeAndStatusAndDrm("main" , status, drm);
     }
 
     /** Получение двух комплектов вспомогательных информационных банеров (массивом)
@@ -55,16 +54,16 @@ public class BannerController {
      * @param drm       уровень защиты (если есть == L1/L2/L3), не обязательный параметр
      * @return
      */
-    @GetMapping("/banner/complex")
+    @GetMapping("/banner/complex") //@RequestMapping(value = "/banner/complex", method = RequestMethod.GET)
     @ResponseBody
     public List<Banner> getBannerComplex(@RequestParam(name = "status") boolean status, @RequestParam(name = "drm", required = false) String drm) {
         if (drm.equals("L1") || drm.equals("L2") || drm.equals("L3") ) { drm = drm; } else { drm = "NONE";}
-        return bannerService.getBannerComplex(status, drm);
+        return bannerService.findByTypeNotLikeAndStatusAndDrm("main" , status, drm);
     }
 
     @RequestMapping(value = "/banners/main", method = RequestMethod.GET)
     public ModelAndView bannerMain() {
-        List<Banner> banners = bannerService.getBannerByType("main");
+        List<Banner> banners = bannerService.findByType("main");
         int i = 0;
         for(Banner banner : banners){
             String path = banner.getPath();
@@ -80,7 +79,7 @@ public class BannerController {
 
     @RequestMapping(value = "/banners/info", method = RequestMethod.GET)
     public ModelAndView bannerInfo() {
-        List<Banner> banners = bannerService.getBannerNotByType("main");
+        List<Banner> banners = bannerService.findByTypeNotLike("main");
         int i = 0;
         for(Banner banner : banners){
             String path = banner.getPath();
@@ -100,7 +99,7 @@ public class BannerController {
             @PathVariable int bannerID,
             MultipartFile path
     ) {
-        bannerService.storeBanner(bannerID, path);
+        bannerService.update(bannerID, path);
         bannerMain();
         return "Done";
     }
@@ -111,7 +110,7 @@ public class BannerController {
             @PathVariable int bannerID,
             MultipartFile path
     ) {
-        bannerService.storeBanner(bannerID, path);
+        bannerService.update(bannerID, path);
         return "Done";
     }
 

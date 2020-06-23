@@ -1,6 +1,6 @@
 bannersLocationPath: home/novikolay/develop/adt_assets/src/main/resources/static/testbanners
 adminUsername: user
-adminPassword: password
+adminPassword: $2a$10$2p35Un2Ma5cPCkKyaEMjE.ICeu/7Q7FXYRtSLUsmR/dRcxuHasTeO
 #password
 logging:
     level:
