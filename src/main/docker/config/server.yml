@@ -1,0 +1,14 @@
+server:
+  port: 80
+  ssl:
+    enabled: false
+
+spring:
+  datasource:
+    url: jdbc:postgresql://adt-db:5432/adt_content
+    username: test
+    password: 123
+  jpa:
+    show-sql: false
+#  redis:
+#      host: adt-redis

@@ -2,11 +2,15 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.3.0.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
-	id "com.palantir.docker" version "0.25.0"
+	id 'war'
 }
 
+ext.debDir = '/opt/adt-assets/'
+ext.debPkgName = 'adt-assets'
+
 group = 'abox.assets'
-version = '0.0.1-SNAPSHOT'
+archivesBaseName = 'abox.assets.adt'
+version = 'test'
 sourceCompatibility = '11'
 
 repositories {
@@ -35,6 +39,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.webjars:bootstrap:4.5.0'
 	implementation 'org.webjars:jquery:3.5.1'
+	implementation "org.flywaydb:flyway-core:6.4.1"
 	//implementation 'com.h2database:h2:1.4.199'
 	//implementation 'org.hibernate:hibernate-core:5.4.2.Final'
 
@@ -72,23 +77,61 @@ dependencies {
 
 	//test
 	testCompile('org.springframework.boot:spring-boot-starter-test')
-
-	//docker
-	classpath "com.palantir.gradle.docker:gradle-docker:0.25.0"
-	//classpath('se.transmode.gradle:gradle-docker:1.2')
 }
 
 test {
 	useJUnitPlatform()
 }
 
-task buildDocker(type: Docker, dependsOn: build) {
-	applicationName = jar.baseName
-	dockerfile = file('src/main/docker/Dockerfile')
-	doFirst {
-		copy {
-			from jar
-			into stageDir
-		}
+task debClean(type: Delete, dependsOn: 'clean') {
+	doLast {
+		delete fileTree(dir: getDebDir(''), excludes: ['jvm.tar.gz', 'share/**'])
+		delete debPkgName + '_' + jar.archiveVersion + '.deb'
 	}
 }
+
+task dockerBuild(type: Exec, dependsOn: 'assemble') {
+	workingDir project.projectDir
+	executable 'docker-compose'
+	args '-f', 'src/main/docker/docker-compose.yml', 'build'
+}
+
+task dockerPush(type: Exec, dependsOn: 'dockerBuild') {
+	workingDir project.projectDir
+	executable 'docker-compose'
+	args '-f', 'src/main/docker/docker-compose.yml', 'push'
+}
+
+task dockerUp(type: Exec, dependsOn: 'assemble') {
+	workingDir project.projectDir
+	executable 'docker-compose'
+	args '-f', 'src/main/docker/docker-compose.yml', 'up', '--build', '-d'
+}
+
+task dockerDown(type: Exec, dependsOn: 'assemble') {
+	workingDir project.projectDir
+	executable 'docker-compose'
+	args '-f', 'src/main/docker/docker-compose.yml', 'down', '--rmi=all', '--volumes'
+}
+
+//task buildDocker(type: Docker, dependsOn: build) {
+//	applicationName = jar.baseName
+//	dockerfile = file('src/main/docker/Dockerfile')
+//	doFirst {
+//		copy {
+//			from jar
+//			into stageDir
+//		}
+//	}
+//}
+
+//buildscript {
+//	repositories {
+//		maven {
+//			url "https://plugins.gradle.org/m2/"
+//		}
+//	}
+//	dependencies {
+//		classpath "com.palantir.gradle.docker:gradle-docker:0.25.0"
+//	}
+//}

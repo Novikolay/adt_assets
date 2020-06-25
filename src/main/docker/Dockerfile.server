@@ -1,0 +1,10 @@
+FROM openjdk:11.0.7-jre
+
+ENV WORKDIR=/apps/adt-assets
+ENV WARFILE=abox.assets.adt-test.war
+
+WORKDIR $WORKDIR
+COPY src/main/docker/config/server.yml ${WORKDIR}/application.yml
+COPY build/libs/${WARFILE} ${WORKDIR}/${WARFILE}
+
+CMD java ${JAVA_OPTIONS} -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -jar ${WORKDIR}/${WARFILE}

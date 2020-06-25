@@ -1,0 +1,39 @@
+version: '2'
+services:
+#  adt-nginx:
+#    build:
+#      context: ../../../
+#      dockerfile: src/main/docker/Dockerfile.nginx
+#    depends_on:
+#      - adt-server
+  adt-server:
+    build:
+      context: ../../../
+      dockerfile: src/main/docker/Dockerfile.server
+    volumes:
+      - /var/lib/wildred/adt/apps/:/apps/data/
+      - /var/cache/wildred/adt/buid/src/:/var/cache/wildred/adt/build/src/
+      - /var/log/wildred/:/var/log/wildred/
+      - /etc/wildred-adt/:/apps/wildred-adt/config/
+    ports:
+    - 5006:5005 # remote debugging is available at localhost:5006
+    depends_on:
+      - adt-db
+#      - adt-redis
+  adt-db:
+    build:
+      context: ../../../
+      dockerfile: src/main/docker/Dockerfile.postgres
+    volumes:
+      - /var/lib/postgres-adt-data/:/var/lib/postgresql/
+#      - src/main/sql/initDB.sql:/docker-entrypoint-initdb.d/sql/initDB.sql
+#      - src/main/sql/populateDB.sql:/docker-entrypoint-initdb.d/sql/populateDB.sql
+#      - ./sql/V0_0_00__initDB.sql:/docker-entrypoint-initdb.d/sql/V0_0_00__initDB.sql
+#      - ./sql/V0_0_01__populateDB.sql:/docker-entrypoint-initdb.d/sql/V0_0_01__populateDB.sql
+#        COPY sql/V0_0_00__initDB.sql /docker-entrypoint-initdb.d/10-V0_0_00__initDB.sql
+#        COPY sql/V0_0_01__populateDB.sql /docker-entrypoint-initdb.d/10-V0_0_01__populateDB.sql
+#        ADD sql/V0_0_00__initDB.sql sql/V0_0_01__populateDB.sql
+#  adt-redis:
+#    build:
+#      context: ../../../
+#      dockerfile:  src/main/docker/Dockerfile.redis
