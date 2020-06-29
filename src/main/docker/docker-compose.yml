@@ -1,5 +1,6 @@
 version: '2'
 services:
+# groundwork for the future
 #  adt-nginx:
 #    build:
 #      context: ../../../
@@ -21,11 +22,19 @@ services:
       - adt-db
 #      - adt-redis
   adt-db:
+#    image: postgres
+#    restart: always
     build:
       context: ../../../
       dockerfile: src/main/docker/Dockerfile.postgres
-    volumes:
-      - /var/lib/postgres-adt-data/:/var/lib/postgresql/
+# test patches
+#    volumes:
+#      - sql:/docker-entrypoint-initdb.d/sql/
+#      - src/main/sql/initDB.sql:/docker-entrypoint-initdb.d/sql/initDB.sql
+#      - src/main/sql/populateDB.sql:/docker-entrypoint-populatedb.d/sql/populateDB.sql
+#      - src/main/sql:/var/lib/postgresql/data
+#      - db-data:/var/lib/sql
+#      - /var/lib/postgres-adt-data/:/var/lib/postgresql/
 #      - src/main/sql/initDB.sql:/docker-entrypoint-initdb.d/sql/initDB.sql
 #      - src/main/sql/populateDB.sql:/docker-entrypoint-initdb.d/sql/populateDB.sql
 #      - ./sql/V0_0_00__initDB.sql:/docker-entrypoint-initdb.d/sql/V0_0_00__initDB.sql

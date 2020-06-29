@@ -28,7 +28,8 @@ public class Banner {
 
     @Column(name = "drm")
     private String drm;
-    
+
+    @Transient
     public String img;
 
     public Integer getId() {
