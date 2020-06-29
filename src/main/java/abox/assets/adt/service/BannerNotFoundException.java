@@ -21,6 +21,6 @@ public class BannerNotFoundException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        return "Profile with parameter|s = " + bannerID + " not found";
+        return "Banner with parameter|s = " + bannerID + " not found";
     }
 }
