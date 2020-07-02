@@ -1,6 +1,7 @@
 package abox.assets.adt.model;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -13,7 +14,8 @@ class BannerType {
     //@Column(name = "name")
     //@OneToOne(mappedBy = "type")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "type")
-    private Set<Banner> banner;
+    private List<Banner> banners;
+    //private Set<Banner> banner;
     //private String name;
 
     public Integer getId() {
@@ -30,11 +32,11 @@ class BannerType {
 //        this.name = name;
 //    }
 
-    public String getName() {
-        return name;
+    public List<Banner> getName() {
+        return banners;
     }
-    public void setName(String name) {
-        this.name = name;
+    public void setName(List<Banner> banners) {
+        this.banners = banners;
     }
 
 }

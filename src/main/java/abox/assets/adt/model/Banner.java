@@ -3,11 +3,6 @@ package abox.assets.adt.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Root;
-import java.util.List;
 
 @Entity
 @Table(name = "banners")
@@ -25,21 +20,18 @@ public class Banner {
     @Column(name = "path")
     private String path;
 
-    @OneToOne
-    @JoinColumn(name = "type", unique = true, nullable = false)
-    private BannerType type;
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "type", nullable = false)
+//    @OneToOne
+//    @JoinColumn(name = "type", unique = true, nullable = false)
 //    private BannerType type;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "type", nullable = false)
+    private BannerType type;
 
     @Column(name = "status")
     private boolean status;
 
-//    @OneToOne
-//    @JoinColumn(name = "drm", unique = true)
-//    private String drm;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "drm", nullable = false)
+    @JoinColumn(name = "drm") //, nullable = false
     private BannerDrm drm;
 
     @Transient
@@ -66,10 +58,17 @@ public class Banner {
         this.path = path;
     }
 
-    public String getType() {
+//    public String getType() {
+//        return type;
+//    }
+//    public void setType(String type) {
+//        this.type = type;
+//    }
+
+    public BannerType getType() {
         return type;
     }
-    public void setType(String type) {
+    public void setType(BannerType type) {
         this.type = type;
     }
 
@@ -80,10 +79,10 @@ public class Banner {
         this.status = status;
     }
 
-    public String getDrm() {
+    public BannerDrm getDrm() {
         return drm;
     }
-    public void setDrm(String drm) {
+    public void setDrm(BannerDrm drm) {
         this.drm = drm;
     }
 
