@@ -80,13 +80,13 @@ public class BannerController {
         return mav;
     }
 
-   public void abc() {
-       HashMap <Integer, String> drmLevels = new HashMap<>();
-       drmLevels.put(0, "NONE");
-       drmLevels.put(1 , "L1");
-       drmLevels.put(2 , "L2");
-       drmLevels.put(3 , "L3");
-   }
+//   public void abc() {
+//       HashMap <Integer, String> drmLevels = new HashMap<>();
+//       drmLevels.put(0, "NONE");
+//       drmLevels.put(1 , "L1");
+//       drmLevels.put(2 , "L2");
+//       drmLevels.put(3 , "L3");
+//   }
 
 //    повторение проверки защиты - мне проверка эта вообще не понятна,
 //    тем более в таком виде, ее как минимум стоило вынести в отдельный
