@@ -9,7 +9,10 @@ import org.springframework.web.servlet.ModelAndView;
 import abox.assets.adt.model.Banner;
 import abox.assets.adt.service.BannerService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 //@RequestMapping(value = "/banner", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -43,9 +46,9 @@ public class BannerController {
      */
     @GetMapping("/banner/main") //@RequestMapping(value = "/banner/main", method = RequestMethod.GET)
     @ResponseBody
-    public List<Banner> getBannerMain(@RequestParam(name = "status") boolean status, @RequestParam(name = "drm", required = false) String drm) {
-        if (drm.equals("L1") || drm.equals("L2") || drm.equals("L3") ) { drm = drm; } else { drm = "NONE";}
-        return bannerService.findByTypeAndStatusAndDrm("main" , status, drm);
+    public List<Banner> getBannerMain(@RequestParam(name = "status") Optional<Boolean> status, @RequestParam(name = "drm", required = false) Optional<String> drm) {
+        if (drm.equals("L1") || drm.equals("L2") || drm.equals("L3") ) { drm = drm; } else { drm = Optional.of("NONE");}
+        return bannerService.findByType("main" , status, drm);
     }
 
     /** Получение двух комплектов вспомогательных информационных банеров (массивом)
@@ -56,14 +59,14 @@ public class BannerController {
      */
     @GetMapping("/banner/complex") //@RequestMapping(value = "/banner/complex", method = RequestMethod.GET)
     @ResponseBody
-    public List<Banner> getBannerComplex(@RequestParam(name = "status") boolean status, @RequestParam(name = "drm", required = false) String drm) {
-        if (drm.equals("L1") || drm.equals("L2") || drm.equals("L3") ) { drm = drm; } else { drm = "NONE";}
-        return bannerService.findByTypeNotLikeAndStatusAndDrm("main" , status, drm);
+    public List<Banner> getBannerComplex(@RequestParam(name = "status") Optional<Boolean> status, @RequestParam(name = "drm", required = false) Optional<String> drm) {
+        if (drm.equals("L1") || drm.equals("L2") || drm.equals("L3") ) { drm = drm; } else { drm = Optional.of("NONE");}
+        return bannerService.findByTypeNotLike("main" , status, drm);
     }
 
     @RequestMapping(value = "/banners/main", method = RequestMethod.GET)
     public ModelAndView bannerMain() {
-        List<Banner> banners = bannerService.findByType("main");
+        List<Banner> banners = bannerService.findByType("main", Optional.empty(), Optional.empty()); //Only
         int i = 0;
         for(Banner banner : banners){
             String path = banner.getPath();
@@ -77,9 +80,27 @@ public class BannerController {
         return mav;
     }
 
+   public void abc() {
+       HashMap <Integer, String> drmLevels = new HashMap<>();
+       drmLevels.put(0, "NONE");
+       drmLevels.put(1 , "L1");
+       drmLevels.put(2 , "L2");
+       drmLevels.put(3 , "L3");
+   }
+
+//    повторение проверки защиты - мне проверка эта вообще не понятна,
+//    тем более в таком виде, ее как минимум стоило вынести в отдельный
+//    метод чтобы не копипастить. При увеличении кол-ва уровней нужно
+//    будет во всех местах это поправить, что точно приведет к ошибкам.
+//    Еще правильнее - вынести проверки в контроллер - не верные данные -
+//    IllegalArgumentException (в контроллере уже отдельный метод).
+//    Поддерживаемые уровни надо было хотя бы в массиве или в Set запихнуть,
+//    так руками совсем грубо. Если делать вообще правильно - отдельный
+//    словарь - поиск по ключу - не нашли - исключение о неправильных параметрах.
+
     @RequestMapping(value = "/banners/info", method = RequestMethod.GET)
     public ModelAndView bannerInfo() {
-        List<Banner> banners = bannerService.findByTypeNotLike("main");
+        List<Banner> banners = bannerService.findByTypeNotLike("main", Optional.empty(), Optional.empty()); //Only
         int i = 0;
         for(Banner banner : banners){
             String path = banner.getPath();

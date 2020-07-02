@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BannerServiceImpl implements BannerService {
@@ -31,28 +32,38 @@ public class BannerServiceImpl implements BannerService {
     }
 
     @Override
-    public List<Banner> findByTypeAndStatusAndDrm(String type, boolean status, String drm) {
-        return bannerRepository.findByTypeAndStatusAndDrm(type, status, drm)
-                .orElseThrow(() -> new BannerNotFoundException(status, drm));
-    }
-
-    @Override
-    public List<Banner> findByTypeNotLikeAndStatusAndDrm(String type, boolean status, String drm) {
-        return bannerRepository.findByTypeNotLikeAndStatusAndDrm(type, status, drm)
-                .orElseThrow(() -> new BannerNotFoundException(status, drm));
-    }
-
-    @Override
-    public List<Banner> findByType(String type) {
-        return bannerRepository.findByType(type)
+    public List<Banner> findByType(String type, Optional<Boolean> status, Optional<String> drm) {
+        if(status.isEmpty()) {
+            return bannerRepository.findByType(type)
                 .orElseThrow(() -> new BannerNotFoundException(type));
+        } else {
+            return bannerRepository.findByTypeAndStatusAndDrm(type, status.get(), drm.get())
+                    .orElseThrow(() -> new BannerNotFoundException(status.get(), drm.get()));
+        }
     }
 
     @Override
-    public List<Banner> findByTypeNotLike(String type) {
+    public List<Banner> findByTypeNotLike(String type, Optional<Boolean> status, Optional<String> drm) {
+        if(status.isEmpty()) {
         return bannerRepository.findByTypeNotLike(type)
                 .orElseThrow(() -> new BannerNotFoundException(type));
+        } else {
+            return bannerRepository.findByTypeNotLikeAndStatusAndDrm(type, status.get(), drm.get())
+                    .orElseThrow(() -> new BannerNotFoundException(status.get(), drm.get()));
+        }
     }
+
+//    @Override
+//    public List<Banner> findByTypeOnly(String type) {
+//        return bannerRepository.findByType(type)
+//                .orElseThrow(() -> new BannerNotFoundException(type));
+//    }
+//
+//    @Override
+//    public List<Banner> findByTypeNotLikeOnly(String type) {
+//        return bannerRepository.findByTypeNotLike(type)
+//                .orElseThrow(() -> new BannerNotFoundException(type));
+//    }
 
     @Override
     public boolean update(int id, MultipartFile path) {

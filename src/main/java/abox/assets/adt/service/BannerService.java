@@ -4,6 +4,7 @@ import abox.assets.adt.model.Banner;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BannerService {
 
@@ -19,14 +20,14 @@ public interface BannerService {
      * @param type  -- тип баннера
      * @return      -- объект баннера с заданным ID
      */
-    List<Banner> findByType(String type);
+    //List<Banner> findByTypeOnly(String type);
 
     /**
      * Возвращает все баннеры, отличные от заданного типа
      * @param type  -- тип баннера
      * @return      -- объект баннера с заданным ID
      */
-    List<Banner> findByTypeNotLike(String type);
+    //List<Banner> findByTypeNotLikeOnly(String type);
 
     /**
      * Возвращает основной информационный банер по заданным параметрам
@@ -34,7 +35,7 @@ public interface BannerService {
      * @param drm       -- уровень защиты (если есть == L1/L2/L3), не обязательный параметр
      * @return
      */
-    List<Banner> findByTypeAndStatusAndDrm(String type, boolean status, String drm);
+    List<Banner> findByType(String type, Optional<Boolean> status, Optional<String> drm);
 
     /**
      * Возвращает двух комплектов вспомогательных информационных банеров (массивом)
@@ -42,7 +43,7 @@ public interface BannerService {
      * @param drm       -- уровень защиты (если есть == L1/L2/L3), не обязательный параметр
      * @return
      */
-    List<Banner> findByTypeNotLikeAndStatusAndDrm(String type, boolean status, String drm);
+    List<Banner> findByTypeNotLike(String type, Optional<Boolean> status, Optional<String> drm);
 
 //    /**
 //     * Возвращает все баннеры (для отображения в админке)
