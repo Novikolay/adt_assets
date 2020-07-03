@@ -42,6 +42,8 @@ public class BannerServiceImpl implements BannerService {
         }
     }
 
+    //if (drm.equals("L1") || drm.equals("L2") || drm.equals("L3") ) { drm = drm; } else { drm = null; }
+
     @Override
     public List<Banner> findByTypeNotLike(String type, Optional<Boolean> status, Optional<String> drm) {
         if(status.isEmpty()) {

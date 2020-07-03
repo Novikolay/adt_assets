@@ -6,17 +6,16 @@ import java.util.Set;
 
 @Entity
 @Table(name = "types")
-class BannerType {
+public class BannerType {
     @Id
     @Column(name = "id")
     private Integer id;
 
-    //@Column(name = "name")
-    //@OneToOne(mappedBy = "type")
+    @Column(name= "name")
+    private String name;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "type")
-    private List<Banner> banners;
-    //private Set<Banner> banner;
-    //private String name;
+    private Set<Banner> banner;
 
     public Integer getId() {
         return id;
@@ -25,18 +24,18 @@ class BannerType {
         this.id = id;
     }
 
-//    public String getName() {
-//        return name;
-//    }
-//    public void setName(String name) {
-//        this.name = name;
-//    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public List<Banner> getName() {
-        return banners;
-    }
-    public void setName(List<Banner> banners) {
-        this.banners = banners;
-    }
+//    public Set<Banner> getBanner() {
+//        return banner;
+//    }
+//    public void setBanner(Set<Banner> banner) {
+//        this.banner = banner;
+//    }
 
 }

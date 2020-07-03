@@ -20,9 +20,6 @@ public class Banner {
     @Column(name = "path")
     private String path;
 
-//    @OneToOne
-//    @JoinColumn(name = "type", unique = true, nullable = false)
-//    private BannerType type;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "type", nullable = false)
     private BannerType type;
@@ -31,7 +28,7 @@ public class Banner {
     private boolean status;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "drm") //, nullable = false
+    @JoinColumn(name = "drm")
     private BannerDrm drm;
 
     @Transient
@@ -58,19 +55,12 @@ public class Banner {
         this.path = path;
     }
 
-//    public String getType() {
-//        return type;
+//    public BannerType getType() {
+//        return bannerType;
 //    }
-//    public void setType(String type) {
-//        this.type = type;
+//    public void setType(BannerType bannerType) {
+//        this.bannerType = bannerType;
 //    }
-
-    public BannerType getType() {
-        return type;
-    }
-    public void setType(BannerType type) {
-        this.type = type;
-    }
 
     public Boolean getStatus() {
         return status;
@@ -79,12 +69,12 @@ public class Banner {
         this.status = status;
     }
 
-    public BannerDrm getDrm() {
-        return drm;
-    }
-    public void setDrm(BannerDrm drm) {
-        this.drm = drm;
-    }
+//    public BannerDrm getDrm() {
+//        return bannerDrm;
+//    }
+//    public void setDrm(BannerDrm bannerDrm) {
+//        this.bannerDrm = bannerDrm;
+//    }
 
     public String getImg() {
         return img;

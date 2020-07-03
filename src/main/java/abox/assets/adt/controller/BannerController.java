@@ -47,12 +47,11 @@ public class BannerController {
     @GetMapping("/banner/main") //@RequestMapping(value = "/banner/main", method = RequestMethod.GET)
     @ResponseBody
     public List<Banner> getBannerMain(@RequestParam(name = "status") Optional<Boolean> status, @RequestParam(name = "drm", required = false) Optional<String> drm) {
-        if (drm.equals("L1") || drm.equals("L2") || drm.equals("L3") ) { drm = drm; } else { drm = Optional.of("NONE");}
         return bannerService.findByType("main" , status, drm);
     }
 
     /** Получение двух комплектов вспомогательных информационных банеров (массивом)
-     * Пример запроса: http://localhost:8080/complex/main?status=false&drm=L2
+     * Пример запроса: http://localhost:8080/banner/complex?status=false&drm=L2
      * @param status    статус услуги (подключена == true, не подключена == false), обязательный параметр
      * @param drm       уровень защиты (если есть == L1/L2/L3), не обязательный параметр
      * @return
@@ -60,7 +59,6 @@ public class BannerController {
     @GetMapping("/banner/complex") //@RequestMapping(value = "/banner/complex", method = RequestMethod.GET)
     @ResponseBody
     public List<Banner> getBannerComplex(@RequestParam(name = "status") Optional<Boolean> status, @RequestParam(name = "drm", required = false) Optional<String> drm) {
-        if (drm.equals("L1") || drm.equals("L2") || drm.equals("L3") ) { drm = drm; } else { drm = Optional.of("NONE");}
         return bannerService.findByTypeNotLike("main" , status, drm);
     }
 
@@ -79,24 +77,6 @@ public class BannerController {
         mav.addObject("files", banners);
         return mav;
     }
-
-//   public void abc() {
-//       HashMap <Integer, String> drmLevels = new HashMap<>();
-//       drmLevels.put(0, "NONE");
-//       drmLevels.put(1 , "L1");
-//       drmLevels.put(2 , "L2");
-//       drmLevels.put(3 , "L3");
-//   }
-
-//    повторение проверки защиты - мне проверка эта вообще не понятна,
-//    тем более в таком виде, ее как минимум стоило вынести в отдельный
-//    метод чтобы не копипастить. При увеличении кол-ва уровней нужно
-//    будет во всех местах это поправить, что точно приведет к ошибкам.
-//    Еще правильнее - вынести проверки в контроллер - не верные данные -
-//    IllegalArgumentException (в контроллере уже отдельный метод).
-//    Поддерживаемые уровни надо было хотя бы в массиве или в Set запихнуть,
-//    так руками совсем грубо. Если делать вообще правильно - отдельный
-//    словарь - поиск по ключу - не нашли - исключение о неправильных параметрах.
 
     @RequestMapping(value = "/banners/info", method = RequestMethod.GET)
     public ModelAndView bannerInfo() {
