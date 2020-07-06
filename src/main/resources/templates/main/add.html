@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <title>Добавление нового баннера</title>
+</head>
+    <body>
+    <div layout:fragment="content" th:remove="tag" class="container justify-content-md-center">
+        <div class="col-md-auto ustify-content-md-center align-items-center">
+            <div class="row-md-auto">
+                <h2>Добавление нового баннера</h2>
+            </div>
+            <div class="row-md-auto">
+            <form action="#" th:action="'/banners/add'" method="post" enctype="multipart/form-data">
+                <div class="input-group">
+                    <div class="col">
+                        <div class="row">
+                            <div class="form-row">
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="Имя баннера">
+                                </div>
+                            </div>
+                            <div class="custom-file col">
+                                <input text="Выбрать файл" type="file" class="custom-file-input" id="path" name="path" aria-describedby="btnSubmit">
+                                <label class="custom-file-label" for="path">Файл баннера для загрузки на сервер</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label>Статус услуги:</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="statusRadios" id="statusRadio1" value="L1" checked>
+                                    <label class="form-check-label" for="statusRadio1">
+                                        Включена
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="statusRadios" id="statusRadio2" value="L2">
+                                    <label class="form-check-label" for="statusRadio2">
+                                        Отключена
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label>Тип:</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="typeRadios" id="typeRadio1" value="main" checked>
+                                    <label class="form-check-label" for="typeRadio1">
+                                        Main
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="typeRadios" id="typeRadio2" value="info">
+                                    <label class="form-check-label" for="typeRadio2">
+                                        Info
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="typeRadios" id="typeRadio3" value="small">
+                                    <label class="form-check-label" for="typeRadio3">
+                                        Small
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label>DRM:</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="drmRadios" id="drmRadio1" value="L1" checked>
+                                    <label class="form-check-label" for="drmRadio1">
+                                        L1
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="drmRadios" id="drmRadio2" value="L2">
+                                    <label class="form-check-label" for="drmRadio4">
+                                        L2
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="drmRadios" id="drmRadio3" value="L3">
+                                    <label class="form-check-label" for="drmRadio3">
+                                        L3
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="drmRadios" id="drmRadio4" value=null>
+                                    <label class="form-check-label" for="drmRadio4">
+                                        NONE
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row"><div class=" col-md-10 center">
+                            <button class="btn btn-outline-secondary btn-block" type="submit" name="upload-submit" id="btnSubmit" value="upload">Добавить новый баннер</button>
+                        </div></div>
+                    </div>
+                </div>
+            </form>
+            </div>
+            <div class="row-md-auto">
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col">
+                        <a href="/banners/main" class="btn btn-primary btn-block" role="button">На страницу главных баннеров</a>
+                    </div>
+                    <div class="col">
+                        <a href="/banners/info" class="btn btn-primary btn-block" role="button">На страницу информационных баннеров</a>
+                    </div>
+                </div>
+                <div class="row"><div class="col">
+                    <a href="/banner/control" class="btn btn-warning btn-block" role="button">На главную</a>
+                </div></div>
+            </div>
+            </div>
+    </div>
+</div>
+</body>
+</html>

@@ -61,27 +61,6 @@ public class BannerServiceImpl implements BannerService {
     }
 
     @Override
-    public boolean update(int id, MultipartFile path) {
-        if (bannerRepository.existsById(id)) {
-            try {
-                String pathToBanner = File.separator + Paths.get(bannersLocationPath) + File.separator + path.getOriginalFilename();
-                byte[] bytes = path.getBytes();
-                BufferedOutputStream stream =
-                        new BufferedOutputStream(new FileOutputStream(new File(pathToBanner)));
-                stream.write(bytes);
-                stream.close();
-                Banner banner = bannerRepository.getOne(id);
-                banner.setPath(pathToBanner);
-                bannerRepository.save(banner);
-                return true;
-            } catch (Exception e) {
-                throw new RuntimeException("FAIL! -> message = " + e.getMessage());
-            }
-        }
-        return false;
-    }
-
-    @Override
     public List<Object[]> convertBannerData(List<Banner> banners) {
         List<Object[]> complex = new ArrayList<>();
         Object[] bnInfo = new Object[0];
@@ -112,5 +91,47 @@ public class BannerServiceImpl implements BannerService {
             i++;
         }
         return banners;
+    }
+
+    @Override
+    public boolean update(int id, MultipartFile path) {
+        if (bannerRepository.existsById(id)) {
+            try {
+                String pathToBanner = File.separator + Paths.get(bannersLocationPath) + File.separator + path.getOriginalFilename();
+                byte[] bytes = path.getBytes();
+                BufferedOutputStream stream =
+                        new BufferedOutputStream(new FileOutputStream(new File(pathToBanner)));
+                stream.write(bytes);
+                stream.close();
+                Banner banner = bannerRepository.getOne(id);
+                banner.setPath(pathToBanner);
+                bannerRepository.save(banner);
+                return true;
+            } catch (Exception e) {
+                throw new RuntimeException("FAIL! -> message = " + e.getMessage());
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void addBanner(String name, MultipartFile path, String type, boolean status, String drm) {
+        try {
+            String pathToBanner = File.separator + Paths.get(bannersLocationPath) + File.separator + path.getOriginalFilename();
+            byte[] bytes = path.getBytes();
+            BufferedOutputStream stream =
+                    new BufferedOutputStream(new FileOutputStream(new File(pathToBanner)));
+            stream.write(bytes);
+            stream.close();
+            Banner banner = new Banner();
+            banner.setName(name);
+            banner.setPath(pathToBanner);
+            banner.type.setName(type);
+            banner.setStatus(status);
+            banner.drm.setName(drm);
+            bannerRepository.save(banner);
+        } catch (Exception e) {
+            throw new RuntimeException("FAIL! -> message = " + e.getMessage());
+        }
     }
 }

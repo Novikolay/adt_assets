@@ -62,4 +62,14 @@ public interface BannerService {
      */
     List<Banner> changeBannerData (List<Banner> banners);
 
+    /**
+     * Создание нового баннера с заданными параметрами
+     * @param name
+     * @param path
+     * @param type
+     * @param status
+     * @param drm
+     */
+    void addBanner(String name, MultipartFile path, String type, boolean status, String drm);
+
 }

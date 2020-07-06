@@ -99,6 +99,18 @@ public class BannerController {
         return "Done";
     }
 
+    @PostMapping(value = "/banners/add")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addBanner(
+            String name,
+            MultipartFile path,
+            String type,
+            boolean status,
+            String drm
+    ) {
+        bannerService.addBanner(name, path, type, status, drm);
+    }
+
 //    @RequestMapping(value = "/banners/update/{bannerID:\\d+}", method = RequestMethod.GET)
 //    public ModelAndView bannerUpdate(@PathVariable(name = "bannerID") int bannerID) {
 //        List<Banner> banners = bannerService.getBannerAll();

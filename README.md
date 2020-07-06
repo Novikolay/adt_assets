@@ -64,7 +64,6 @@
 * http://localhost:8080/info     — страница управления информационными банерами
 
 ### GET-запросы
-* http://localhost:8080/banner/{int} — выдает конкретный баннер по его ID. Пример http://localhost:8080/banner/10
 * http://localhost:8080/banner/main?status={boolean}&drm={String} — выдает главный баннер по заданным status и drm. Пример: http://localhost:8080/banner/main?status=true&drm=L1
 * http://localhost:8080/banner/complex?status={boolean}&drm={String} — выдает 2 баннера массивом (малый и инфо) по заданным status и drm. Пример: http://localhost:8080/complex/main?status=false&drm=L2
 

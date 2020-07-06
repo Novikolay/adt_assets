@@ -29,4 +29,9 @@ public class WebController {
     public String control2() {
         return "main/control";
     }
+
+    @GetMapping("/banners/add")
+    public String addBanner() {
+        return "main/add";
+    }
 }
