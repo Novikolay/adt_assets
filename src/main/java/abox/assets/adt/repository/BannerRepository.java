@@ -1,11 +1,9 @@
 package abox.assets.adt.repository;
 
 import abox.assets.adt.model.Banner;
-import abox.assets.adt.model.BannerType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 

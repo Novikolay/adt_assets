@@ -1,5 +1,6 @@
 package abox.assets.adt.service;
 
+import abox.assets.adt.model.BannerDrm;
 import abox.assets.adt.repository.BannerRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,11 +26,6 @@ public class BannerServiceImpl implements BannerService {
     @Autowired
     public BannerServiceImpl(BannerRepository bannerRepository) {
         this.bannerRepository = bannerRepository;
-    }
-
-    @Override
-    public Banner getOne(int bannerID) {
-        return bannerRepository.getOne(bannerID);
     }
 
     @Override
@@ -63,18 +60,6 @@ public class BannerServiceImpl implements BannerService {
         }
     }
 
-//    @Override
-//    public List<Banner> findByTypeOnly(String type) {
-//        return bannerRepository.findByType(type)
-//                .orElseThrow(() -> new BannerNotFoundException(type));
-//    }
-//
-//    @Override
-//    public List<Banner> findByTypeNotLikeOnly(String type) {
-//        return bannerRepository.findByTypeNotLike(type)
-//                .orElseThrow(() -> new BannerNotFoundException(type));
-//    }
-
     @Override
     public boolean update(int id, MultipartFile path) {
         if (bannerRepository.existsById(id)) {
@@ -94,5 +79,38 @@ public class BannerServiceImpl implements BannerService {
             }
         }
         return false;
+    }
+
+    @Override
+    public List<Object[]> convertBannerData(List<Banner> banners) {
+        List<Object[]> complex = new ArrayList<>();
+        Object[] bnInfo = new Object[0];
+        for (Banner banner : banners) {
+            String bnType = banner.type.getName();
+            String bnDrm = null;
+            if (banner.drm != null) {
+                bnDrm = banner.drm.getName();
+            }
+            bnInfo = new Object[]{banner.getId(), banner.getName(), banner.getPath(), bnType, banner.getStatus(), bnDrm};
+            complex.add(bnInfo);
+        }
+        return complex;
+    }
+
+    @Override
+    public List<Banner> changeBannerData(List<Banner> banners) {
+        int i = 0;
+        for(Banner banner : banners){
+            String path = banner.getPath();
+            String img = path.replace(bannersLocationPath, "").replace("//", "/testbanners/");
+            if (banner.drm == null) {
+                banner.drm = new BannerDrm();
+                banner.drm.setName("NONE");
+            }
+            banner.setImg(img);
+            banners.set(i, banner);
+            i++;
+        }
+        return banners;
     }
 }

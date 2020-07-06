@@ -62,20 +62,6 @@ public class Banner {
         this.status = status;
     }
 
-//    public BannerType getType() {
-//        return type;
-//    }
-//    public void setType(BannerType type) {
-//        this.type = type;
-//    }
-//
-//    public BannerDrm getDrm() {
-//        return drm;
-//    }
-//    public void setDrm(BannerDrm drm) {
-//        this.drm = drm;
-//    }
-
     public String getImg() {
         return img;
     }
