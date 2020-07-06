@@ -37,12 +37,15 @@ public class BannerServiceImpl implements BannerService {
             return bannerRepository.findByType(type)
                 .orElseThrow(() -> new BannerNotFoundException(type));
         } else {
-            return bannerRepository.findByTypeAndStatusAndDrm(type, status.get(), drm.get())
-                    .orElseThrow(() -> new BannerNotFoundException(status.get(), drm.get()));
+            if(drm.isEmpty()) {
+                return bannerRepository.findByTypeAndStatus(type, status.get())
+                        .orElseThrow(() -> new BannerNotFoundException(status.get(), null));
+            } else {
+                return bannerRepository.findByTypeAndStatusAndDrm(type, status.get(), drm.get())
+                        .orElseThrow(() -> new BannerNotFoundException(status.get(), drm.get()));
+            }
         }
     }
-
-    //if (drm.equals("L1") || drm.equals("L2") || drm.equals("L3") ) { drm = drm; } else { drm = null; }
 
     @Override
     public List<Banner> findByTypeNotLike(String type, Optional<Boolean> status, Optional<String> drm) {
@@ -50,8 +53,13 @@ public class BannerServiceImpl implements BannerService {
         return bannerRepository.findByTypeNotLike(type)
                 .orElseThrow(() -> new BannerNotFoundException(type));
         } else {
-            return bannerRepository.findByTypeNotLikeAndStatusAndDrm(type, status.get(), drm.get())
-                    .orElseThrow(() -> new BannerNotFoundException(status.get(), drm.get()));
+            if(drm.isEmpty()) {
+                return bannerRepository.findByTypeNotLikeAndStatus(type, status.get())
+                        .orElseThrow(() -> new BannerNotFoundException(status.get(), null));
+            } else {
+                return bannerRepository.findByTypeNotLikeAndStatusAndDrm(type, status.get(), drm.get())
+                        .orElseThrow(() -> new BannerNotFoundException(status.get(), drm.get()));
+            }
         }
     }
 

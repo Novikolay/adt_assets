@@ -12,17 +12,14 @@ import java.util.Optional;
 public interface BannerRepository extends JpaRepository<Banner, Integer> {
     @Query("from Banner where type.name = :type and status = :status and drm.name = :drm")
     Optional<List<Banner>> findByTypeAndStatusAndDrm(String type, boolean status, String drm);
-    @Query("from Banner where type.name = :type and status = :status and drm.name = :drm")
+    @Query("from Banner where type.name not like :type and status = :status and drm.name = :drm")
     Optional<List<Banner>> findByTypeNotLikeAndStatusAndDrm(String type, boolean status, String drm);
+    @Query("from Banner where type.name = :type and status = :status and drm is null")
+    Optional<List<Banner>> findByTypeAndStatus(String type, boolean status);
+    @Query("from Banner where type.name not like :type and status = :status and drm is null")
+    Optional<List<Banner>> findByTypeNotLikeAndStatus(String type, boolean status);
     @Query("from Banner where type.name = :type")
     Optional<List<Banner>> findByType(String type);
-    @Query("from Banner where type.name = :type")
+    @Query("from Banner where type.name not like :type")
     Optional<List<Banner>> findByTypeNotLike(String type);
-
-//    @Query("SELECT p FROM People p JOIN p.parentStreet s WHERE s.parentCity = :city")
-//    List<People> findAllByCity(@Param("city") City city);
-
-//    @Query("SELECT p FROM People p JOIN p.parentStreet s JOIN s.parentCity c WHERE c.name = :cityname")
-//    List<People> findAllByCityName(@Param("cityname") String cityname);
-
 }

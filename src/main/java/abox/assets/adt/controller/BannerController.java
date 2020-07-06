@@ -1,5 +1,6 @@
 package abox.assets.adt.controller;
 
+import abox.assets.adt.model.BannerDrm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -9,10 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import abox.assets.adt.model.Banner;
 import abox.assets.adt.service.BannerService;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 //@RequestMapping(value = "/banner", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -46,8 +44,19 @@ public class BannerController {
      */
     @GetMapping("/banner/main") //@RequestMapping(value = "/banner/main", method = RequestMethod.GET)
     @ResponseBody
-    public List<Banner> getBannerMain(@RequestParam(name = "status") Optional<Boolean> status, @RequestParam(name = "drm", required = false) Optional<String> drm) {
-        return bannerService.findByType("main" , status, drm);
+    public Object[] getBannerMain(@RequestParam(name = "status") Optional<Boolean> status, @RequestParam(name = "drm", required = false) Optional<String> drm) {
+        List<Banner> banners = (List<Banner>) bannerService.findByType("main", status, drm);
+        Object[] bnInfo = new Object[0];
+        for (Banner banner : banners) {
+            String bnType = banner.type.getName();
+            String bnDrm = null;
+            if (banner.drm != null) {
+                bnDrm = banner.drm.getName();
+            }
+            bnInfo = new Object[]{banner.getId(), banner.getName(), banner.getPath(), bnType, banner.getStatus(), bnDrm};
+        }
+        return bnInfo;
+        //List<Banner> banners = bannerService.findByType("main" , status, drm);
     }
 
     /** Получение двух комплектов вспомогательных информационных банеров (массивом)
@@ -58,8 +67,21 @@ public class BannerController {
      */
     @GetMapping("/banner/complex") //@RequestMapping(value = "/banner/complex", method = RequestMethod.GET)
     @ResponseBody
-    public List<Banner> getBannerComplex(@RequestParam(name = "status") Optional<Boolean> status, @RequestParam(name = "drm", required = false) Optional<String> drm) {
-        return bannerService.findByTypeNotLike("main" , status, drm);
+    public List<Object[]> getBannerComplex(@RequestParam(name = "status") Optional<Boolean> status, @RequestParam(name = "drm", required = false) Optional<String> drm) {
+        List<Banner> banners = bannerService.findByTypeNotLike("main", status, drm);
+        List<Object[]> complex = new ArrayList<>();
+        Object[] bnInfo = new Object[0];
+        for (Banner banner : banners) {
+            String bnType = banner.type.getName();
+            String bnDrm = null;
+            if (banner.drm != null) {
+                bnDrm = banner.drm.getName();
+            }
+            bnInfo = new Object[]{banner.getId(), banner.getName(), banner.getPath(), bnType, banner.getStatus(), bnDrm};
+            complex.add(bnInfo);
+        }
+        return complex;
+        //return bannerService.findByTypeNotLike("main" , status, drm);
     }
 
     @RequestMapping(value = "/banners/main", method = RequestMethod.GET)
@@ -69,6 +91,10 @@ public class BannerController {
         for(Banner banner : banners){
             String path = banner.getPath();
             String img = path.replace(bannersLocationPath, "").replace("//", "/testbanners/");
+            if (banner.drm == null) {
+                banner.drm = new BannerDrm();
+                banner.drm.setName("NONE");
+            }
             banner.setImg(img);
             banners.set(i, banner);
             i++;
@@ -85,6 +111,10 @@ public class BannerController {
         for(Banner banner : banners){
             String path = banner.getPath();
             String img = path.replace(bannersLocationPath, "").replace("//", "/testbanners/");
+            if (banner.drm == null) {
+                banner.drm = new BannerDrm();
+                banner.drm.setName("NONE");
+            }
             banner.setImg(img);
             banners.set(i, banner);
             i++;

@@ -28,9 +28,9 @@
                 <td col col-lg-2 th:text="${file.id}" th:field="${file.id}">ID</td>
                 <td col col-lg-2><a th:href="${file.img}"><img th:src="${file.img}" alt="Preview" width="50" height="50"/></a></td><!--@{file.path}-->
                 <!--<td col col-lg-2 th:text="${file.name}">Имя файла</td>-->
-                <td col col-lg-2 th:text="${file.type}">Тип</td>
+                <td col col-lg-2 th:text="${file.type.getName()}">Тип</td>
                 <td col col-lg-2 th:text="${file.status} ? 'true' : 'false'">Статус</td>
-                <td col col-lg-2 th:text="${file.drm}">DRM</td>
+                <td col col-lg-2 th:text="${file.drm.getName()}">DRM</td>
                 <td col-md-auto>
                     <form action="#" th:action="'/banners/main/' + ${file.id}" th:object="${file}" method="post" enctype="multipart/form-data">
                         <div class="input-group">
