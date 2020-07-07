@@ -39,7 +39,7 @@
                                 <label class="custom-file-label" for="path"><p th:text="${file.img}"></p></label>
                             </div>
                             <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="submit" name="upload-submit" id="btnSubmit" value="upload">Обновить файл</button>
+                                <button class="btn btn-outline-secondary" type="submit" name="upload-submit" id="btnSubmit" value="upload" th:action="@{/banners/info}">Обновить файл</button>
                             </div>
                         </div>
                     </form>

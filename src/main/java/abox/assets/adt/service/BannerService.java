@@ -1,8 +1,12 @@
 package abox.assets.adt.service;
 
 import abox.assets.adt.model.Banner;
+import abox.assets.adt.model.BannerData;
+import abox.assets.adt.model.BannerDrm;
+import abox.assets.adt.model.BannerType;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,7 +56,8 @@ public interface BannerService {
      * @param banners
      * @return
      */
-    List<Object[]> convertBannerData (List<Banner> banners);
+    //List<Object[]> convertBannerData (List<Banner> banners);
+    List<BannerData> convertBannerData (List<Banner> banners);
 
     /**
      * Преобразование banner.type & banner.drm в человекочитаемый
@@ -70,6 +75,7 @@ public interface BannerService {
      * @param status
      * @param drm
      */
-    void addBanner(String name, MultipartFile path, String type, boolean status, String drm);
-
+    void addBanner(String name, MultipartFile path, int type, boolean status, Integer drm);
+    List<BannerType> bannerTypeInPage();
+    List<BannerDrm> bannerDrmInPage();
 }

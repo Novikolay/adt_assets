@@ -14,11 +14,11 @@ CREATE TABLE IF NOT EXISTS banners (
 CREATE SEQUENCE banners_id_seq START WITH 25 INCREMENT BY 1;
 CREATE TABLE IF NOT EXISTS types (
         id     INTEGER PRIMARY KEY ,
-        name   VARCHAR(10) NOT NULL
+        name   VARCHAR(10) NOT NULL UNIQUE
     );
 CREATE TABLE IF NOT EXISTS drms (
         id     INTEGER PRIMARY KEY ,
-        name   VARCHAR(10) NOT NULL
+        name   VARCHAR(10) NOT NULL UNIQUE
     );
 ALTER TABLE banners
     ADD CONSTRAINT fk_banner_types FOREIGN KEY (type)

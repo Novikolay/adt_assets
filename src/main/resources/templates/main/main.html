@@ -54,7 +54,7 @@
                                 <label th:text="${file.img}" class="custom-file-label" for="path"></label> <!--<p th:text="${file.img}"></p>-->
                             </div>
                             <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="submit" name="upload-submit" id="btnSubmit" value="upload">Обновить файл</button>
+                                <button class="btn btn-outline-secondary" type="submit" name="upload-submit" id="btnSubmit" value="upload" th:action="@{/banners/main}">Обновить файл</button>
                                 <!-- th:onclick="'updateResult();'"-->
                             </div>
                         </div>

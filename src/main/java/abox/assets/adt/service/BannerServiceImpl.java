@@ -1,7 +1,11 @@
 package abox.assets.adt.service;
 
+import abox.assets.adt.model.BannerData;
 import abox.assets.adt.model.BannerDrm;
+import abox.assets.adt.model.BannerType;
+import abox.assets.adt.repository.BannerDrmRepository;
 import abox.assets.adt.repository.BannerRepository;
+import abox.assets.adt.repository.BannerTypeRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,14 +23,18 @@ import java.util.Optional;
 
 @Service
 public class BannerServiceImpl implements BannerService {
-    private final BannerRepository bannerRepository ;
+    private final BannerRepository bannerRepository;
+    private final BannerTypeRepository bannerTypeRepository;
+    private final BannerDrmRepository bannerDrmRepository;
 
     @Value("${bannersLocationPath}")
     private String bannersLocationPath;
 
     @Autowired
-    public BannerServiceImpl(BannerRepository bannerRepository) {
+    public BannerServiceImpl(BannerRepository bannerRepository, BannerTypeRepository bannerTypeRepository, BannerDrmRepository bannerDrmRepository) {
         this.bannerRepository = bannerRepository;
+        this.bannerTypeRepository = bannerTypeRepository;
+        this.bannerDrmRepository = bannerDrmRepository;
     }
 
     @Override
@@ -61,17 +70,22 @@ public class BannerServiceImpl implements BannerService {
     }
 
     @Override
-    public List<Object[]> convertBannerData(List<Banner> banners) {
-        List<Object[]> complex = new ArrayList<>();
-        Object[] bnInfo = new Object[0];
+    public List<BannerData> convertBannerData (List<Banner> banners) {
+        List<BannerData> complex =  new ArrayList<>();
+        BannerData bannerData = new BannerData();
         for (Banner banner : banners) {
             String bnType = banner.type.getName();
             String bnDrm = null;
             if (banner.drm != null) {
                 bnDrm = banner.drm.getName();
             }
-            bnInfo = new Object[]{banner.getId(), banner.getName(), banner.getPath(), bnType, banner.getStatus(), bnDrm};
-            complex.add(bnInfo);
+            bannerData.setId(banner.getId());
+            bannerData.setName(banner.getName());
+            bannerData.setPath(banner.getPath());
+            bannerData.setType(bnType);
+            bannerData.setStatus(banner.getStatus());
+            bannerData.setDrm(bnDrm);
+            complex.add(bannerData);
         }
         return complex;
     }
@@ -115,23 +129,38 @@ public class BannerServiceImpl implements BannerService {
     }
 
     @Override
-    public void addBanner(String name, MultipartFile path, String type, boolean status, String drm) {
+    public void addBanner(String name, MultipartFile path, int typeId, boolean status, Integer drmId) {
+        String pathToBanner = null;
         try {
-            String pathToBanner = File.separator + Paths.get(bannersLocationPath) + File.separator + path.getOriginalFilename();
+            pathToBanner = File.separator + Paths.get(bannersLocationPath) + File.separator + path.getOriginalFilename();
             byte[] bytes = path.getBytes();
             BufferedOutputStream stream =
                     new BufferedOutputStream(new FileOutputStream(new File(pathToBanner)));
             stream.write(bytes);
             stream.close();
-            Banner banner = new Banner();
-            banner.setName(name);
-            banner.setPath(pathToBanner);
-            banner.type.setName(type);
-            banner.setStatus(status);
-            banner.drm.setName(drm);
-            bannerRepository.save(banner);
         } catch (Exception e) {
-            throw new RuntimeException("FAIL! -> message = " + e.getMessage());
+            e.printStackTrace();
+            return;
         }
+        BannerType type = bannerTypeRepository.getOne(typeId);
+        BannerDrm drm = null;
+        if (drmId != null) {
+            drm = bannerDrmRepository.getOne(drmId);
+        }
+        Banner banner = new Banner();
+        banner.setName(name);
+        banner.setPath(pathToBanner);
+        banner.setType(type);
+        banner.setStatus(status);
+        banner.setDrm(drm);
+        bannerRepository.save(banner);
+    }
+
+    public List<BannerType> bannerTypeInPage() {
+        return bannerTypeRepository.findAll();
+    }
+
+    public List<BannerDrm> bannerDrmInPage() {
+        return bannerDrmRepository.findAll();
     }
 }
