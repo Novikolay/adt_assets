@@ -6,20 +6,6 @@
     <title>Управление главными баннерами</title>
 </head>
     <body>
-<!--    <script src="scripts/updateBanner.js"></script>-->
-<!--<script>-->
-<!--    $(document).ready(function () {-->
-<!--        console.log("1")-->
-<!--        $('#btnSubmit').onclick(updateResult);-->
-<!--        function updateResult() {-->
-<!--            console.log("2")-->
-<!--            $.ajax({-->
-<!--                type: 'get',-->
-<!--                url: [["/banners/main"]],-->
-<!--            })-->
-<!--        }-->
-<!--    })-->
-<!--</script>-->
     <div layout:fragment="content" th:remove="tag" class="container h-200 justify-content-md-center">
         <div class="row h-200 justify-content-center align-items-center update_banner">
             <div class="col-md-auto table-responsive" th:fragment="update_banner">
@@ -42,31 +28,43 @@
                     <td col col-lg-2 th:text="${file.type.getName()}">Тип</td>
                     <td col col-lg-2 th:text="${file.status} ? 'true' : 'false'">Статус</td>
                     <td col col-lg-2 th:text="${file.drm.getName()}">DRM</td>
-
                     <td col-md-auto>
-<!--                        <label th:text="${file.img}" class="custom-file-label"></label>-->
-<!--                        <a class="btn btn-outline-secondary" href="'/banners/update/' + ${file.id}" role="button">Обновить файл</a>-->
-<!--                        <button class="btn btn-outline-secondary" type="submit">Обновить файл</button>-->
-                        <form action="#" th:action="'/banners/main/' + ${file.id}" th:object="${file}" method="post" enctype="multipart/form-data">
-                        <div class="input-group">
-                            <div class="custom-file">
-                                <input text="Выбрать файл" type="file" class="custom-file-input" id="path" name="path" aria-describedby="btnSubmit">
-                                <label th:text="${file.img}" class="custom-file-label" for="path"></label> <!--<p th:text="${file.img}"></p>-->
-                            </div>
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="submit" name="upload-submit" id="btnSubmit" value="upload" th:action="@{/banners/main}">Обновить файл</button>
-                                <!-- th:onclick="'updateResult();'"-->
+                        <button class="btn btn-outline-secondary btn-block" data-toggle="modal" th:data-target="'#modal' + ${file.id}" th:text="${file.img}"></button>
+                        <div class="modal fade" th:id="'modal' + ${file.id}" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg modal-dialog-centered">
+                                <div class="modal-content">
+                                    <form action="#" th:action="'/main/' + ${file.id}" th:object="${file}" method="post" enctype="multipart/form-data">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="ModalLabel">Изменение баннера</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                                <div class="input-group">
+                                                    <div class="custom-file">
+                                                        <input text="Выбрать файл" type="file" class="custom-file-input" id="path" name="path" aria-describedby="btnSubmit">
+                                                        <label th:text="${file.img}" class="custom-file-label" for="path"></label>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                                            <button class="btn btn-primary" type="submit" name="upload-submit" id="btnSubmit" value="upload">Сохранить</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                        </form>
                     </td>
                 </tr>
                 </tbody>
             </table>
             <div>
-                <a href="/banners/add" class="btn btn-primary btn-block" role="button">Добавление нового баннера</a>
-                <a href="/banners/info" class="btn btn-primary btn-block" role="button">На страницу информационных баннеров</a>
-                <a href="/banner/control" class="btn btn-warning btn-block" role="button">На главную</a>
+                <a href="/add" class="btn btn-success btn-block" role="button">Добавление нового баннера</a>
+                <a href="/info" class="btn btn-primary btn-block" role="button">На страницу информационных баннеров</a>
+                <a href="/control" class="btn btn-warning btn-block" role="button">На главную</a>
+            </div>
             </div>
         </div>
     </div>

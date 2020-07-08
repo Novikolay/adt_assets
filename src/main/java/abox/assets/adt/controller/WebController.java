@@ -1,10 +1,10 @@
 package abox.assets.adt.controller;
 
 import abox.assets.adt.service.BannerService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Optional;
@@ -19,7 +19,7 @@ public class WebController {
 
     @GetMapping("/")
     public String root() {
-        return "redirect:banner/control";
+        return "redirect:control";
     }
 
     @GetMapping("/login")
@@ -32,24 +32,19 @@ public class WebController {
         return "/error/access-denied";
     }
 
-    @GetMapping("/banner/control")
+    @GetMapping("/control")
     public String control() {
         return "main/control";
     }
 
-    @GetMapping("/control")
-    public String control2() {
-        return "main/control";
-    }
-
-    @RequestMapping(value = "/banners/add", method = RequestMethod.GET)
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
     public ModelAndView addBanner() {
         return new ModelAndView("main/add")
                 .addObject("types", bannerService.bannerTypeInPage())
                 .addObject("drms", bannerService.bannerDrmInPage());
     }
 
-    @RequestMapping(value = "/banners/main", method = RequestMethod.GET)
+    @RequestMapping(value = "/main", method = RequestMethod.GET)
     public ModelAndView bannerMain() {
         return new ModelAndView("main/main")
                 .addObject("files",
@@ -61,7 +56,7 @@ public class WebController {
                                 )));
     }
 
-    @RequestMapping(value = "/banners/info", method = RequestMethod.GET)
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
     public ModelAndView bannerInfo() {
         return new ModelAndView("main/info")
                 .addObject("files",
@@ -73,4 +68,21 @@ public class WebController {
                                 )));
     }
 
+    @PostMapping(value = "/main/{bannerID:\\d+}")
+    @ResponseStatus(HttpStatus.OK)
+    public ModelAndView bannerMainUpdate(
+            @PathVariable int bannerID,
+            MultipartFile path ) {
+        bannerService.update(bannerID, path);
+        return bannerMain();
+    }
+
+    @PostMapping(value = "/info/{bannerID:\\d+}")
+    @ResponseStatus(HttpStatus.OK)
+    public ModelAndView bannerInfoUpdate(
+            @PathVariable int bannerID,
+            MultipartFile path ) {
+        bannerService.update(bannerID, path);
+        return bannerInfo();
+    }
 }

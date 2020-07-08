@@ -50,28 +50,15 @@ public class BannerController {
                     bannerService.findByTypeNotLike("main", status, drm));
     }
 
-    @PostMapping(value = "/banners/main/{bannerID:\\d+}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public String updateBannerFileMain(
-            @PathVariable int bannerID,
-            MultipartFile path
-    ) {
-        bannerService.update(bannerID, path);
-        //bannerMain();
-        return "Done";
-    }
-
-    @PostMapping(value = "/banners/info/{bannerID:\\d+}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public String updateBannerFileInfo(
-            @PathVariable int bannerID,
-            MultipartFile path
-    ) {
-        bannerService.update(bannerID, path);
-        return "Done";
-    }
-
-    @PostMapping(value = "/banners/add")
+    /**
+     * Добавление нового баннера в БД с заданными параметрами
+     * @param name
+     * @param path
+     * @param type
+     * @param status
+     * @param drm
+     */
+    @PostMapping(value = "/add")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void addBanner(
             String name,

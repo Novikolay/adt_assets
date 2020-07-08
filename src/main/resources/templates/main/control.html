@@ -7,10 +7,13 @@
 </head>
 <body>
 <div layout:fragment="content" th:remove="tag">
-    <h1>Управление баннерами</h1>
-    <div class="row h-100 justify-content-around align-items-center">
-    <a href="/banners/main" class="btn btn-primary" role="button">На страницу главных баннеров</a>
-    <a href="/banners/info" class="btn btn-danger" role="button">На страницу информационных баннеров</a>
+<!--    <h1>Управление баннерами</h1>-->
+    <div class="row justify-content-around align-items-center mt-md-3">
+        <div class="col-md-4">
+            <a th:href="@{/main}" class="btn btn-primary btn-block" role="button">На страницу главных баннеров</a>
+            <a th:href="@{/info}" class="btn btn-danger btn-block" role="button">На страницу информационных баннеров</a>
+            <a th:href="@{/add}" class="btn btn-success btn-block" role="button">Добавить баннер</a>
+        </div>
     </div>
 </div>
 </body>
